@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 21:54:27 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/01/27 15:59:19 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/01/31 16:36:37 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	params_count(char **params)
 	size_t i;
 
 	i = 0;
+	if (!params)
+		return (0);
 	while (params[i])
 		i++;
 	return (i);
@@ -60,6 +62,8 @@ static void	params_free(char **params)
 {
 	size_t i;
 
+	if (!params)
+		return ;
 	i = -1;
 	while (params[++i])
 		free(params[i]);
@@ -106,28 +110,66 @@ static void	parse_texture(char **params, t_data *data)
 		errno = TXT_ERROR;
 }
 
-static void	parse_color(char **params, t_data *data)
+static int	rgb_to_hex(char *str)
 {
-	if (ft_strcmp(params[0], "F") == 0)
-		data->cfg.f = ft_strdup(params[1]);
-	if (ft_strcmp(params[0], "C") == 0)
-		data->cfg.c = ft_strdup(params[1]);
+	char	**colors;
+	int		r;
+	int		g;
+	int		b;
+	int		color;
+
+	colors = ft_split(str, ",");
+	if (params_count(colors) != 3 || !only_digit(colors[0]) ||
+		!only_digit(colors[1]) || !only_digit(colors[2]))
+	{
+		errno = PARAM_INVALID;
+		return (0);
+	}
+	r = ft_atoi(colors[0]);
+	g = ft_atoi(colors[1]);
+	b = ft_atoi(colors[2]);
+	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+		errno = PARAM_INVALID;
+	color = r << 16 | g << 8 | b;
+	params_free(colors);
+	free(str);
+	return (color);
 }
 
-static int	is_validtile(char tile, char *tiles)
+static void	parse_color(char **params, t_data *data)
+{
+	size_t	i;
+	char	*color;
+	char	*tmp;
+
+	color = 0;
+	i = 0;
+	while (params[++i])
+	{
+		tmp = color;
+		color = ft_strjoin(color, params[i]);
+		if (tmp)
+			free(tmp);
+	}
+	if (ft_strcmp(params[0], "F") == 0)
+		data->cfg.f = rgb_to_hex(color);
+	if (ft_strcmp(params[0], "C") == 0)
+		data->cfg.c = rgb_to_hex(color);
+}
+
+static int	is_charinstr(char c, char *str)
 {
 	size_t i;
 
 	i = -1;
-	while (tiles[++i])
-		if (tiles[i] == tile)
+	while (str[++i])
+		if (str[i] == c)
 			return (1);
 	return (0);
 }
 
-static t_crd	player_position(t_data *data)
+static int	init_player(t_data *data)
 {
-	t_crd	player;
 	int		i;
 	int		j;
 
@@ -136,29 +178,37 @@ static t_crd	player_position(t_data *data)
 	{
 		j = -1;
 		while (++j < data->cfg.map_size.x)
-		{
-			if (data->cfg.map[i][j] == 'N' || data->cfg.map[i][j] == 'S' ||
-				data->cfg.map[i][j] == 'W' || data->cfg.map[i][j] == 'E')
+			if (is_charinstr(data->cfg.map[i][j], "NSWE"))
+			{
+				data->player.pos.x = j;
+				data->player.pos.y = i;
+				while (i < data->cfg.map_size.y)
 				{
-					player.x = j;
-					player.y = i;
+					while (++j < data->cfg.map_size.x)
+						if (is_charinstr(data->cfg.map[i][j], "NSWE"))
+							return (0);
+					j = -1;
+					i++;
 				}
-		}
+				return (1);
+			}
 	}
-	return (player);
+	return (0);
 }
 
 static int	spread(int x, int y, t_data *data)
 {
-	if (data->cfg.map[y][x] == ' ' || (data->cfg.map[y][x] == '0' && (y - 1 < 0 || x - 1 < 0 ||
+	if (data->cfg.map[y][x] == ' ' ||
+	(is_charinstr(data->cfg.map[y][x], "02NSWE") && (y - 1 < 0 || x - 1 < 0 ||
 		y + 1 >= data->cfg.map_size.y || x + 1 >= data->cfg.map_size.x)))
-		{
-			data->cfg.map[y][x] = '-';
-			return (1);
-		}
-	if (data->cfg.map[y][x] == '0' || data->cfg.map[y][x] == 'N')
 	{
-		data->cfg.map[y][x] = '-';
+		data->cfg.map[y][x] = '#';
+		return (1);
+	}
+	if (is_charinstr(data->cfg.map[y][x], "0NSWE"))
+	{
+		if (data->cfg.map[y][x] == '0')
+			data->cfg.map[y][x] = '-';
 		if (spread(x, y - 1, data))
 			return (1);
 		if (spread(x - 1, y, data))
@@ -173,15 +223,12 @@ static int	spread(int x, int y, t_data *data)
 
 static int	is_map_leaking(t_data *data)
 {
-	t_crd	crd;
-
-	crd = player_position(data);
-	return (spread(crd.x, crd.y, data));
+	return (spread(data->player.pos.x, data->player.pos.y, data));
 }
 
-static void map_to_mat(t_data *data)
+static void	map_to_mat(t_data *data)
 {
-	size_t 	i;
+	size_t	i;
 	t_list	*lst;
 
 	lst = data->cfg.map_tmp;
@@ -191,9 +238,11 @@ static void map_to_mat(t_data *data)
 	{
 		data->cfg.map[i] = malloc(data->cfg.map_size.x * sizeof(char));
 		ft_memset(data->cfg.map[i], ' ', data->cfg.map_size.x);
-		data->cfg.map[i] = ft_memcpy(data->cfg.map[i], lst->content, ft_strlen(lst->content));
+		data->cfg.map[i] = ft_memcpy(data->cfg.map[i], lst->content, \
+			ft_strlen(lst->content));
 		lst = lst->next;
 	}
+	ft_lstclear(&data->cfg.map_tmp, free);
 }
 
 static void	parse_map(char *line, t_data *data)
@@ -208,7 +257,7 @@ static void	parse_map(char *line, t_data *data)
 	{
 		if (len > data->cfg.map_size.x)
 			data->cfg.map_size.x = len;
-		if (!is_validtile(line[i], TILES))
+		if (!is_charinstr(line[i], TILES))
 		{
 			errno = WRONG_TILE;
 			return ;
@@ -235,7 +284,7 @@ static int	parse_selector(char *line, t_data *data)
 		parse_color(params, data);
 	else if (params[0] && !cfg_filled(data))
 		errno = ARG_INVALID;
-	else if (params[0] && cfg_filled(data))
+	else if ((params[0] || data->cfg.map_tmp) && cfg_filled(data))
 		parse_map(line, data);
 	params_free(params);
 	return (!errno);
@@ -249,6 +298,7 @@ int			parse_file(char *file, t_data *data)
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (0);
 	line = 0;
+	data->cfg.tile_size = TILE_SIZE;
 	while (get_next_line(fd, &line))
 	{
 		if (!(parse_selector(line, data)))
@@ -264,7 +314,16 @@ int			parse_file(char *file, t_data *data)
 		return (0);
 	}
 	map_to_mat(data);
-	printf("%d\n", is_map_leaking(data));
+	if (!(init_player(data)))
+	{
+		errno = PLAYER_ERROR;
+		return (0);
+	}
+	if (is_map_leaking(data))
+	{
+		errno = MAP_LEAKING;
+		return (0);
+	}
 	if (line)
 		free(line);
 	return (1);

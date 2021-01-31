@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/01/27 14:39:32 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/01/31 10:50:16 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 # define SPACE "\t\n\v\f "
 # define TILES "012NSEW "
+# define TILE_SIZE 32
 
 # define ARG_EXISTS				201
 # define PARAM_INVALID			202
@@ -35,6 +36,9 @@
 # define ARG_INVALID			204
 # define EMPTY_FILE				205
 # define WRONG_TILE				206
+# define MAP_LEAKING			207
+# define PLAYER_ERROR			208
+# define MAP_BLANK_LINE			209
 
 typedef struct		s_crd
 {
@@ -46,6 +50,7 @@ typedef struct		s_mlx
 {
 	void			*ptr;
 	void			*win;
+	t_crd			res;
 }					t_mlx;
 
 typedef struct		s_frame
@@ -61,6 +66,7 @@ typedef struct		s_player
 {
 	t_crd			pos;
 	double			angle;
+	int				color;
 }					t_player;
 
 typedef struct		s_cfg
@@ -72,8 +78,8 @@ typedef struct		s_cfg
 	char			*we;
 	char			*ea;
 	char			*s;
-	char			*f;
-	char			*c;
+	int				f;
+	int				c;
 	t_list			*map_tmp;
 	char			**map;
 	t_crd			map_size;
