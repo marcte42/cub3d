@@ -6,11 +6,11 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 21:54:27 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/01/31 16:36:37 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/08 11:20:58 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/cub3d.h"
+#include "cub3d.h"
 
 static int	only_digit(const char *s)
 {
@@ -58,7 +58,7 @@ static int	cfg_filled(t_data *data)
 	return (0);
 }
 
-static void	params_free(char **params)
+static void	free_params(char **params)
 {
 	size_t i;
 
@@ -131,7 +131,7 @@ static int	rgb_to_hex(char *str)
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 		errno = PARAM_INVALID;
 	color = r << 16 | g << 8 | b;
-	params_free(colors);
+	free_params(colors);
 	free(str);
 	return (color);
 }
@@ -157,14 +157,14 @@ static void	parse_color(char **params, t_data *data)
 		data->cfg.c = rgb_to_hex(color);
 }
 
-static int	is_charinstr(char c, char *str)
+float		get_angle(char direction)
 {
-	size_t i;
-
-	i = -1;
-	while (str[++i])
-		if (str[i] == c)
-			return (1);
+	if (direction == 'N')
+		return (M_PI / 2);
+	if (direction == 'S')
+		return (3 * M_PI / 2);
+	if (direction == 'W')
+		return (M_PI);
 	return (0);
 }
 
@@ -178,14 +178,15 @@ static int	init_player(t_data *data)
 	{
 		j = -1;
 		while (++j < data->cfg.map_size.x)
-			if (is_charinstr(data->cfg.map[i][j], "NSWE"))
+			if (ft_strchr("NSWE", data->cfg.map[i][j]))
 			{
-				data->player.pos.x = j;
-				data->player.pos.y = i;
+				data->player.pos.x = j + 0.5;
+				data->player.pos.y = i + 0.5;
+				data->player.angle = get_angle(data->cfg.map[i][j]);
 				while (i < data->cfg.map_size.y)
 				{
 					while (++j < data->cfg.map_size.x)
-						if (is_charinstr(data->cfg.map[i][j], "NSWE"))
+						if (ft_strchr("NSWE", data->cfg.map[i][j]))
 							return (0);
 					j = -1;
 					i++;
@@ -199,13 +200,13 @@ static int	init_player(t_data *data)
 static int	spread(int x, int y, t_data *data)
 {
 	if (data->cfg.map[y][x] == ' ' ||
-	(is_charinstr(data->cfg.map[y][x], "02NSWE") && (y - 1 < 0 || x - 1 < 0 ||
+	(ft_strchr("02NSWE", data->cfg.map[y][x]) && (y - 1 < 0 || x - 1 < 0 ||
 		y + 1 >= data->cfg.map_size.y || x + 1 >= data->cfg.map_size.x)))
 	{
 		data->cfg.map[y][x] = '#';
 		return (1);
 	}
-	if (is_charinstr(data->cfg.map[y][x], "0NSWE"))
+	if (ft_strchr("0NSWE", data->cfg.map[y][x]))
 	{
 		if (data->cfg.map[y][x] == '0')
 			data->cfg.map[y][x] = '-';
@@ -223,7 +224,11 @@ static int	spread(int x, int y, t_data *data)
 
 static int	is_map_leaking(t_data *data)
 {
-	return (spread(data->player.pos.x, data->player.pos.y, data));
+	t_crd pos;
+
+	pos.x = data->player.pos.x;
+	pos.y = data->player.pos.y;
+	return (spread(pos.x, pos.y, data));
 }
 
 static void	map_to_mat(t_data *data)
@@ -257,7 +262,7 @@ static void	parse_map(char *line, t_data *data)
 	{
 		if (len > data->cfg.map_size.x)
 			data->cfg.map_size.x = len;
-		if (!is_charinstr(line[i], TILES))
+		if (!ft_strchr(TILES, line[i]))
 		{
 			errno = WRONG_TILE;
 			return ;
@@ -286,7 +291,7 @@ static int	parse_selector(char *line, t_data *data)
 		errno = ARG_INVALID;
 	else if ((params[0] || data->cfg.map_tmp) && cfg_filled(data))
 		parse_map(line, data);
-	params_free(params);
+	free_params(params);
 	return (!errno);
 }
 
@@ -298,7 +303,6 @@ int			parse_file(char *file, t_data *data)
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (0);
 	line = 0;
-	data->cfg.tile_size = TILE_SIZE;
 	while (get_next_line(fd, &line))
 	{
 		if (!(parse_selector(line, data)))

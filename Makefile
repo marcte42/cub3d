@@ -1,20 +1,29 @@
 NAME = cub3d
 
-SRCS =	main.c \
-		parser.c
+INC = -Iinc
+
+SRCS =	src/cub3d.c \
+		src/parser.c \
+		src/update_player.c \
+		src/events.c \
+		src/draw.c \
+		src/raycast.c
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror -framework OpenGL -framework AppKit
+FLAGS = -Wall -Wextra -Werror
 
-INCLUDES = lib/libft.a libmlx.dylib
+LIBS = lib/libft.a libmlx.dylib
 
 OBJS = $(SRCS:.c=.o)
 
 all : $(NAME)
 
+.c.o:
+	$(CC) $(INC) -c $<  -o $@
+
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDES)
+	$(CC) $(FLAGS) -framework OpenGL -framework AppKit -o $(NAME) $(OBJS) $(LIBS)
 
 clean :
 	rm -rf $(OBJS)
