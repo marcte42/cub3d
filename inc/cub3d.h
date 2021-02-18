@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/05 13:36:31 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/18 12:59:09 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@
 
 # define SPACE					"\t\n\v\f "
 # define TILES					"012NSEW "
+# define COLLIDERS				"1"
 # define TILE_SIZE				32
 
-# define SPEED					0.05
-# define TURN_SPEED				0.05
+# define SPEED					1
+# define TURN_SPEED				0.03
 # define PLAYER_SIZE			32
 # define FOV					(M_PI / 3)
 
@@ -93,9 +94,11 @@ typedef struct		s_player
 
 typedef struct		s_ray
 {
-	t_fcrd			pos;
 	float			angle;
-	int				color;
+	t_fcrd			hit;
+	float			distance;
+	int				horizontal;
+	char			tile;
 }					t_ray;
 
 typedef struct		s_event
@@ -142,5 +145,7 @@ int		key_release(int keycode, t_data *data);
 void	draw(t_data *data);
 
 void	raycast(t_data *data);
+
+float	normalize_angle(float angle);
 
 #endif

@@ -7,7 +7,8 @@ SRCS =	src/cub3d.c \
 		src/update_player.c \
 		src/events.c \
 		src/draw.c \
-		src/raycast.c
+		src/raycast.c \
+		src/helpers.c
 
 CC = gcc
 

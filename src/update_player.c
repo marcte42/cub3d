@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 13:22:56 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/07 17:00:29 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/16 10:16:37 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int		is_colliding(t_fcrd pos, t_data *data)
 {
-	if (data->cfg.map[(int)pos.y][(int)pos.x] == '1' ||
-		pos.x < 0 || pos.y < 0 ||
-		(int)pos.x > data->cfg.map_size.x ||
-		(int)pos.y > data->cfg.map_size.y)
+	if (ft_strchr(COLLIDERS,
+		data->cfg.map[(int)(pos.y / TILE_SIZE)][(int)(pos.x / TILE_SIZE)]))
 		return (1);
 	return (0);
 }
@@ -25,7 +23,6 @@ int		is_colliding(t_fcrd pos, t_data *data)
 void	player_move(t_data *data)
 {
 	t_fcrd pos;
-
 	pos.x = data->player.pos.x;
 	pos.y = data->player.pos.y;
 	if (data->event.front)
@@ -52,13 +49,11 @@ void	player_move(t_data *data)
 
 void	player_turn(t_data *data)
 {
-	t_fcrd	pos;
-	float	angle;
-
-	pos.x = data->player.pos.x;
-	pos.y = data->player.pos.y;
 	if (data->event.turn)
+	{
 		data->player.angle += (data->event.turn * TURN_SPEED);
+		data->player.angle = normalize_angle(data->player.angle);
+	}
 }
 
 void	update_player(t_data *data)

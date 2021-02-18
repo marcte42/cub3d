@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 21:54:27 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/08 11:20:58 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/08 11:42:43 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,8 @@ static int	init_player(t_data *data)
 		while (++j < data->cfg.map_size.x)
 			if (ft_strchr("NSWE", data->cfg.map[i][j]))
 			{
-				data->player.pos.x = j + 0.5;
-				data->player.pos.y = i + 0.5;
+				data->player.pos.x = j * TILE_SIZE + TILE_SIZE / 2;
+				data->player.pos.y = i * TILE_SIZE + TILE_SIZE / 2;
 				data->player.angle = get_angle(data->cfg.map[i][j]);
 				while (i < data->cfg.map_size.y)
 				{
@@ -226,8 +226,8 @@ static int	is_map_leaking(t_data *data)
 {
 	t_crd pos;
 
-	pos.x = data->player.pos.x;
-	pos.y = data->player.pos.y;
+	pos.x = (data->player.pos.x - (TILE_SIZE / 2)) / 32;
+	pos.y = (data->player.pos.y - (TILE_SIZE / 2)) / 32;
 	return (spread(pos.x, pos.y, data));
 }
 

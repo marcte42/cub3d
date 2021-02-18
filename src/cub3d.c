@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:56:03 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/05 13:50:04 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/18 11:13:21 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,22 @@ int		engine(t_data *data)
 	return (1);
 }
 
+void print_matrix(t_data *data)
+{
+	int i = -1;
+
+
+	while (++i < data->cfg.map_size.y)
+	{
+		int j = -1;
+		while (++j < data->cfg.map_size.x)
+		{
+			printf("%c", data->cfg.map[i][j]);
+		}
+		printf("\n");
+	}
+}
+
 int		init_mlx(t_data *data)
 {
 	int x;
@@ -50,9 +66,7 @@ int		init_mlx(t_data *data)
 		data->cfg.r.x = x;
 	if (y < data->cfg.r.y)
 		data->cfg.r.y = y;
-	if (!(data->mlx.win = mlx_new_window(data->mlx.ptr, data->cfg.r.x, data->cfg.r.y, "Cub3D")) ||
-		!(data->frame.ptr = mlx_new_image(data->mlx.ptr, data->cfg.r.x, data->cfg.r.y)) ||
-		!(data->frame.addr = (int *)mlx_get_data_addr(data->frame.ptr, &(data->frame.bpp), &(data->frame.line_length), &(data->frame.endian))))
+	if (!(data->mlx.win = mlx_new_window(data->mlx.ptr, data->cfg.r.x, data->cfg.r.y, "Cub3D")))
 		return (0);
 	return (1);
 }
@@ -64,6 +78,7 @@ void	cub3d(char *map, t_bool save)
 	errno = 0;
 	ft_bzero(&data, sizeof(data));
 	parse_file(map, &data);
+	print_matrix(&data);
 	if (!init_mlx(&data))
 		exit_failure("MLX initialization failed");
 	mlx_hook(data.mlx.win, KEY_PRESS, 1L << 0, key_press, &data);
