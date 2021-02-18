@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 12:21:00 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/18 13:20:55 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/18 13:37:56 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,20 +182,31 @@ void	draw_walls(t_data *data)
 
 void	draw_floor(t_data *data)
 {
-	size_t	i;
+	size_t	y;
+	size_t	x;
 
-	i = (data->cfg.r.y * data->cfg.r.x) / 2;
-	while (++i < ((data->cfg.r.x * data->cfg.r.y)))
-		data->frame.addr[i] = 0x00808080;
+	y = data->cfg.r.y / 2;
+	while (y < data->cfg.r.y)
+	{
+		x = -1;
+		while (++x < data->cfg.r.x)
+			data->frame.addr[y * data->frame.line_length / 4 + x] = 0x00808080;
+		y++;
+	}
 }
 
 void	draw_ceiling(t_data *data)
 {
-	int	i;
+	size_t	y;
+	size_t	x;
 
-	i = -1;
-	while (++i < (data->cfg.r.x * data->cfg.r.y) / 2)
-		data->frame.addr[i] = 0x0087CEEB;
+	y = -1;
+	while (++y < data->cfg.r.y / 2)
+	{
+		x = -1;
+		while (++x < data->cfg.r.x)
+			data->frame.addr[y * data->frame.line_length / 4 + x] = 0x0087CEEB;
+	}
 }
 
 void	draw(t_data *data)
