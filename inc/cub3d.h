@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/18 12:59:09 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/19 14:17:00 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@
 # define SPACE					"\t\n\v\f "
 # define TILES					"012NSEW "
 # define COLLIDERS				"1"
-# define TILE_SIZE				32
+# define TILE_SIZE				256
+# define MAP_RATIO				0.050
 
-# define SPEED					1
+# define SPEED					20
 # define TURN_SPEED				0.03
 # define PLAYER_SIZE			32
 # define FOV					(M_PI / 3)
@@ -124,6 +125,27 @@ typedef struct		s_cfg
 	t_crd			map_size;
 }					t_cfg;
 
+typedef	struct		s_texture
+{
+	void			*ptr;
+	int				*addr;
+	int				bpp;
+	int				line_length;
+	int				endian;
+	int				width;
+	int				height;
+}					t_texture;
+
+typedef	struct		s_sprite
+{
+	t_fcrd			pos;
+	float			distance;
+	float			angle;
+	int				texture;
+	int				visible;
+}					t_sprite;
+
+
 typedef struct		s_data
 {
 	t_mlx			mlx;
@@ -132,6 +154,8 @@ typedef struct		s_data
 	t_ray			*rays;
 	t_event			event;
 	t_cfg			cfg;
+	t_texture		textures[4];
+	t_sprite		*sprites;
 }					t_data;
 
 void	exit_failure(char *error);

@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 21:54:27 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/08 11:42:43 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/18 17:31:12 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,8 +226,8 @@ static int	is_map_leaking(t_data *data)
 {
 	t_crd pos;
 
-	pos.x = (data->player.pos.x - (TILE_SIZE / 2)) / 32;
-	pos.y = (data->player.pos.y - (TILE_SIZE / 2)) / 32;
+	pos.x = (data->player.pos.x - (TILE_SIZE / 2)) / TILE_SIZE;
+	pos.y = (data->player.pos.y - (TILE_SIZE / 2)) / TILE_SIZE;
 	return (spread(pos.x, pos.y, data));
 }
 

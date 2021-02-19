@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:25:33 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/18 13:23:01 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/18 19:36:47 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ static void		cast_ray(t_data *data, t_ray *ray)
 	int		v_found = 0;
 	float	y_dst;
 	float	x_dst;
-	float	h_dst = 2000;
-	float	v_dst = 2000;
+	float	h_dst;
+	float	v_dst;
 
 	//
 	// HORIZONTAL
 	//
-	y_intercept = floor(data->player.pos.y / 32) * 32;
+	y_intercept = floor(data->player.pos.y / TILE_SIZE) * TILE_SIZE;
 	if (ray->angle < 0 || ray->angle > M_PI)
 		y_intercept += TILE_SIZE;
 	x_intercept = data->player.pos.x - (y_intercept - data->player.pos.y) / tan(ray->angle);
@@ -84,7 +84,7 @@ static void		cast_ray(t_data *data, t_ray *ray)
 	//
 	// VERTICAL
 	//
-	x_intercept = floor(data->player.pos.x / 32) * 32;
+	x_intercept = floor(data->player.pos.x / TILE_SIZE) * TILE_SIZE;
 	if (ray->angle < M_PI_2 || ray->angle > (3 * M_PI_2))
 		x_intercept += TILE_SIZE;
 	y_intercept = data->player.pos.y - (x_intercept - data->player.pos.x) * tan(ray->angle);
@@ -117,7 +117,7 @@ static void		cast_ray(t_data *data, t_ray *ray)
 	if (v_found)
 		v_dst = hit_distance(data->player.pos.x, data->player.pos.y, v_x, v_y);
 
-	if (h_found && h_dst <= v_dst)
+	if ((h_found && h_dst <= v_dst) || !v_found)
 	{
 		ray->horizontal = 1;
 		ray->distance = h_dst;
@@ -145,7 +145,6 @@ void		raycast(t_data *data)
 	ray_angle = normalize_angle(data->player.angle + (FOV / 2));
 	i = -1;
 	while (++i < data->cfg.r.x)
-	//while (++i < 1)
 	{
 		data->rays[i].angle = ray_angle;
 		if (ray_angle != 0 && ray_angle != M_PI)
