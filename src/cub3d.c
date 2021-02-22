@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:56:03 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/22 19:24:41 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/22 21:32:52 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,6 @@ void	update(t_data *data)
 	update_player(data);
 	update_rays(data);
 	update_entities(data);
-}
-
-void	draw(t_data *data)
-{
-	data->frame.ptr = mlx_new_image(data->mlx.ptr, data->cfg.r.x,
-						data->cfg.r.y);
-	data->frame.addr = (int *)mlx_get_data_addr(data->frame.ptr,
-		&data->frame.bpp, &data->frame.line_length, &data->frame.endian);
-	draw_world(data);
-	draw_map(data);
-	draw_entities(data);
-	draw_player(data);
-	mlx_put_image_to_window(data->mlx.ptr, data->mlx.win,
-		data->frame.ptr, 0, 0);
-	mlx_destroy_image(data->mlx.ptr, data->frame.ptr);
 }
 
 void	cub3d(char *file, int save)

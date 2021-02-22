@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 12:21:00 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/22 18:36:17 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/22 21:32:44 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,19 @@ void	draw_world(t_data *data)
 			data->frame.addr[y++ *
 				data->frame.line_length / 4 + x] = data->cfg.f;
 	}
+}
+
+void	draw(t_data *data)
+{
+	data->frame.ptr = mlx_new_image(data->mlx.ptr, data->cfg.r.x,
+						data->cfg.r.y);
+	data->frame.addr = (int *)mlx_get_data_addr(data->frame.ptr,
+		&data->frame.bpp, &data->frame.line_length, &data->frame.endian);
+	draw_world(data);
+	draw_map(data);
+	draw_entities(data);
+	draw_player(data);
+	mlx_put_image_to_window(data->mlx.ptr, data->mlx.win,
+		data->frame.ptr, 0, 0);
+	mlx_destroy_image(data->mlx.ptr, data->frame.ptr);
 }
