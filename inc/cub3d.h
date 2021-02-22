@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/19 14:17:00 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/22 21:01:26 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@
 # define KEY_PRESS				2
 # define KEY_RELEASE			3
 
-# define SPACE					"\t\n\v\f "
+# define SPACE					"\t\v\f "
 # define TILES					"012NSEW "
 # define COLLIDERS				"1"
+# define SPRITE					"2"
 # define TILE_SIZE				256
-# define MAP_RATIO				0.050
+# define MAP_RATIO				3
 
 # define SPEED					20
 # define TURN_SPEED				0.03
@@ -90,7 +91,6 @@ typedef struct		s_player
 {
 	t_fcrd			pos;
 	float			angle;
-	int				color;
 }					t_player;
 
 typedef struct		s_ray
@@ -119,8 +119,10 @@ typedef struct		s_cfg
 	char			*ea;
 	char			*s;
 	int				f;
+	char			*f_str;
 	int				c;
-	t_list			*map_tmp;
+	char			*c_str;
+	t_list			*map_lst;
 	char			**map;
 	t_crd			map_size;
 }					t_cfg;
@@ -136,15 +138,26 @@ typedef	struct		s_texture
 	int				height;
 }					t_texture;
 
-typedef	struct		s_sprite
+typedef	struct		s_strip
+{
+	float			perp_distance;
+	float			plane_distance;
+	int				height;
+	int				top;
+	int				tmp_top;
+	int				bottom;
+	float			ratio;
+	int				color;
+}					t_strip;
+
+typedef	struct		s_entity
 {
 	t_fcrd			pos;
 	float			distance;
 	float			angle;
 	int				texture;
 	int				visible;
-}					t_sprite;
-
+}					t_entity;
 
 typedef struct		s_data
 {
@@ -154,22 +167,43 @@ typedef struct		s_data
 	t_ray			*rays;
 	t_event			event;
 	t_cfg			cfg;
-	t_texture		textures[4];
-	t_sprite		*sprites;
+	t_texture		textures[5];
+	t_entity		*entities;
+	size_t			entities_count;
 }					t_data;
 
-void	exit_failure(char *error);
+int		parse(t_data *data, char *file);
+void	parse_map(char *line, t_data *data);
+int		arg_exists(char **params, t_data *data);
+int		cfg_filled(t_data *data);
+void	map_to_mat(t_data *data);
+int		is_map_leaking(t_data *data);
+void	parse_player(t_data *data);
+float	get_angle(char direction);
+void	error_params(t_data *data, char **params, char *error);
+void	free_params(char **params);
+int		ft_issuffix(char *s1, char *s2);
 
-int		parse_file(char *file, t_data *data);
+void	init(t_data *data);
+void	load(t_data *data);
+
+void	handle_events(t_data *data);
+
+void	update(t_data *data);
 void	update_player(t_data *data);
-
-int		key_press(int keycode, t_data *data);
-int		key_release(int keycode, t_data *data);
+void	update_rays(t_data *data);
+void	update_entities(t_data *data);
 
 void	draw(t_data *data);
-
-void	raycast(t_data *data);
+void	draw_world(t_data *data);
+void	draw_player(t_data *data);
+void	draw_map(t_data *data);
+void	draw_entities(t_data *data);
 
 float	normalize_angle(float angle);
+int		params_count(char **params);
+int		only_digit(const char *s);
+
+void	exit_failure(t_data *data, char *error);
 
 #endif

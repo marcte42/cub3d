@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycast.c                                          :+:      :+:    :+:   */
+/*   update_rays.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:25:33 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/18 19:36:47 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/22 20:24:09 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int		is_wall(t_data *data, float x, float y)
+int		is_wall(t_data *data, float x, float y)
 {
 	if (ft_strchr("1 ", data->cfg.map[(int)y / TILE_SIZE][(int)x / TILE_SIZE]))
 		return (1);
 	return (0);
 }
 
-static float	hit_distance(float p1_x, float p1_y, float p2_x, float p2_y)
+float	hit_distance(float p1_x, float p1_y, float p2_x, float p2_y)
 {
-	float x = p1_x - p2_x;
+	float	x;
+	float	y;
+
+	x = p1_x - p2_x;
 	if (x < 0)
 		x *= -1;
-	float y = p1_y - p2_y;
+	y = p1_y - p2_y;
 	if (y < 0)
 		y *= -1;
 	return (sqrtf(pow(x, 2) + pow(y, 2)));
 }
 
-static void		cast_ray(t_data *data, t_ray *ray)
+void	cast_ray(t_data *data, t_ray *ray)
 {
 	float	x_intercept;
 	float	y_intercept;
@@ -47,14 +50,10 @@ static void		cast_ray(t_data *data, t_ray *ray)
 	float	h_dst;
 	float	v_dst;
 
-	//
-	// HORIZONTAL
-	//
 	y_intercept = floor(data->player.pos.y / TILE_SIZE) * TILE_SIZE;
 	if (ray->angle < 0 || ray->angle > M_PI)
 		y_intercept += TILE_SIZE;
 	x_intercept = data->player.pos.x - (y_intercept - data->player.pos.y) / tan(ray->angle);
-
 	y_step = TILE_SIZE;
 	if (ray->angle > 0 && ray->angle < M_PI)
 		y_step *= -1;
@@ -71,7 +70,7 @@ static void		cast_ray(t_data *data, t_ray *ray)
 			h_found = 1;
 			h_x = x_intercept;
 			h_y = y_intercept;
-			break;
+			break ;
 		}
 		else
 		{
@@ -81,14 +80,10 @@ static void		cast_ray(t_data *data, t_ray *ray)
 	}
 	if (h_found)
 		h_dst = hit_distance(data->player.pos.x, data->player.pos.y, h_x, h_y);
-	//
-	// VERTICAL
-	//
 	x_intercept = floor(data->player.pos.x / TILE_SIZE) * TILE_SIZE;
 	if (ray->angle < M_PI_2 || ray->angle > (3 * M_PI_2))
 		x_intercept += TILE_SIZE;
 	y_intercept = data->player.pos.y - (x_intercept - data->player.pos.x) * tan(ray->angle);
-
 	x_step = TILE_SIZE;
 	if (ray->angle > M_PI_2 && ray->angle < (3 * M_PI_2))
 		x_step *= -1;
@@ -97,7 +92,6 @@ static void		cast_ray(t_data *data, t_ray *ray)
 		y_step *= -1;
 	if (y_step < 0 && (ray->angle > M_PI && ray->angle < M_PI * 2))
 		y_step *= -1;
-
 	while (x_intercept > 0 && x_intercept < data->cfg.map_size.x * TILE_SIZE &&
 			y_intercept > 0 && y_intercept < data->cfg.map_size.y * TILE_SIZE)
 	{
@@ -106,7 +100,7 @@ static void		cast_ray(t_data *data, t_ray *ray)
 			v_found = 1;
 			v_x = x_intercept;
 			v_y = y_intercept;
-			break;
+			break ;
 		}
 		else
 		{
@@ -116,7 +110,6 @@ static void		cast_ray(t_data *data, t_ray *ray)
 	}
 	if (v_found)
 		v_dst = hit_distance(data->player.pos.x, data->player.pos.y, v_x, v_y);
-
 	if ((h_found && h_dst <= v_dst) || !v_found)
 	{
 		ray->horizontal = 1;
@@ -133,7 +126,7 @@ static void		cast_ray(t_data *data, t_ray *ray)
 	}
 }
 
-void		raycast(t_data *data)
+void	update_rays(t_data *data)
 {
 	size_t	i;
 	float	ray_angle;
@@ -141,7 +134,7 @@ void		raycast(t_data *data)
 	if (data->rays)
 		free(data->rays);
 	if (!(data->rays = malloc(data->cfg.r.x * sizeof(t_ray))))
-		exit_failure("Error");
+		exit_failure(data, "Malloc failed");
 	ray_angle = normalize_angle(data->player.angle + (FOV / 2));
 	i = -1;
 	while (++i < data->cfg.r.x)

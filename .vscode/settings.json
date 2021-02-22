@@ -5,6 +5,7 @@
 		"get_next_line.h": "c",
 		"libft.h": "c",
 		"mlx.h": "c",
-		"ios": "c"
+		"ios": "c",
+		"draw_hud.C": "cpp"
 	}
 }

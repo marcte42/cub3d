@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 13:22:56 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/16 10:16:37 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/22 18:32:42 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int		is_colliding(t_fcrd pos, t_data *data)
 void	player_move(t_data *data)
 {
 	t_fcrd pos;
+
 	pos.x = data->player.pos.x;
 	pos.y = data->player.pos.y;
 	if (data->event.front)
