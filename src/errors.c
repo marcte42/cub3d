@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 12:47:02 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/22 21:28:45 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/23 09:59:43 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,14 @@ void	free_struct(t_data *data)
 		free(data->cfg.f_str);
 	if (data->cfg.map_lst)
 		ft_lstclear(&data->cfg.map_lst, free);
-	while (--data->cfg.map_size.y >= 0)
-		free(data->cfg.map[data->cfg.map_size.y]);
-	free(data->cfg.map);
-	mlx_destroy_window(data->mlx.ptr, data->mlx.win);
+	if (data->cfg.map)
+	{
+		while (--data->cfg.map_size.y >= 0 && data->cfg.map[data->cfg.map_size.y])
+			free(data->cfg.map[data->cfg.map_size.y]);
+		free(data->cfg.map);
+	}
+	if (data->mlx.win)
+		mlx_destroy_window(data->mlx.ptr, data->mlx.win);
 }
 
 void	exit_failure(t_data *data, char *error)
@@ -60,8 +64,10 @@ void	exit_failure(t_data *data, char *error)
 		ft_putstr_fd("Error\n", STDERR_FILENO);
 		ft_putstr_fd(error, STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
+		system("leaks cub3d");
 		exit(1);
 	}
+	system("leaks cub3d");
 	exit(0);
 }
 

@@ -1,13 +1,13 @@
 R 1280 720
 
-NO ./txt/crate.xpm
-SO ./txt/crate.xpm
-WE ./txt/crate.xpm
-EA ./txt/crate.xpm
+NO ./txt/crate_n.xpm
+SO ./txt/crate_s.xpm
+WE ./txt/crate_w.xpm
+EA ./txt/crate_e.xpm
 S ./txt/crate.xpm
 
 F 220,100,0
-C 6 3,115,237
+C 63,115,237
 
         11111111111111111111111111111
         10000000001100000000000000001

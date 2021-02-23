@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 18:35:34 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/22 20:01:21 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/22 23:13:21 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	draw_tile(t_data *data, t_crd pos, size_t size, int color)
 		pos.x = limit.x;
 		while (pos.x < limit.x + size)
 		{
-			data->frame.addr[pos.y * data->frame.line_length / 4 + pos.x] = color;
+			data->frame.addr[pos.y * data->frame.line_length / 4
+				+ pos.x] = color;
 			pos.x++;
 		}
 		pos.y++;

@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 12:41:35 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/22 21:02:25 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/23 10:39:34 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 void	init_textures(t_data *data)
 {
 	if (!(data->textures[0].ptr = mlx_xpm_file_to_image(data->mlx.ptr, data->cfg.no, &data->textures[0].width, &data->textures[0].height)))
-		exit_failure(data, "Unable to load textures NO");
+		exit_failure(data, "Unable to load texture");
 	data->textures[0].addr = (int *)mlx_get_data_addr(data->textures[0].ptr, &data->textures[0].bpp, &data->textures[0].line_length, &data->textures[0].endian);
 	if (!(data->textures[1].ptr = mlx_xpm_file_to_image(data->mlx.ptr, data->cfg.so, &data->textures[1].width, &data->textures[1].height)))
-		exit_failure(data, "Unable to load textures SO");
+		exit_failure(data, "Unable to load texture");
 	data->textures[1].addr = (int *)mlx_get_data_addr(data->textures[1].ptr, &data->textures[1].bpp, &data->textures[1].line_length, &data->textures[1].endian);
 	if (!(data->textures[2].ptr = mlx_xpm_file_to_image(data->mlx.ptr, data->cfg.we, &data->textures[2].width, &data->textures[2].height)))
-		exit_failure(data, "Unable to load textures WE");
+		exit_failure(data, "Unable to load texture");
 	data->textures[2].addr = (int *)mlx_get_data_addr(data->textures[2].ptr, &data->textures[2].bpp, &data->textures[2].line_length, &data->textures[2].endian);
 	if (!(data->textures[3].ptr = mlx_xpm_file_to_image(data->mlx.ptr, data->cfg.ea, &data->textures[3].width, &data->textures[3].height)))
-		exit_failure(data, "Unable to load textures EA");
+		exit_failure(data, "Unable to load texture");
 	data->textures[3].addr = (int *)mlx_get_data_addr(data->textures[3].ptr, &data->textures[3].bpp, &data->textures[3].line_length, &data->textures[3].endian);
-	if (!(data->textures[4].ptr = mlx_xpm_file_to_image(data->mlx.ptr, data->cfg.ea, &data->textures[4].width, &data->textures[4].height)))
-		exit_failure(data, "Unable to load textures S");
+	if (!(data->textures[4].ptr = mlx_xpm_file_to_image(data->mlx.ptr, data->cfg.s, &data->textures[4].width, &data->textures[4].height)))
+		exit_failure(data, "Unable to load texture");
 	data->textures[4].addr = (int *)mlx_get_data_addr(data->textures[4].ptr, &data->textures[4].bpp, &data->textures[4].line_length, &data->textures[4].endian);
 }
 
@@ -58,55 +58,6 @@ void	init_player(t_data *data)
 	data->player.pos.y = data->player.pos.y * TILE_SIZE + TILE_SIZE / 2;
 }
 
-size_t	count_entities(t_data *data)
-{
-	size_t x;
-	size_t y;
-	size_t count;
-
-	count = 0;
-	y = -1;
-	while (++y < data->cfg.map_size.y)
-	{
-		x = -1;
-		while (++x < data->cfg.map_size.x)
-		{
-			if (ft_strchr(SPRITE, data->cfg.map[y][x]))
-				count++;
-		}
-	}
-	return (count);
-}
-
-void	init_entities(t_data *data)
-{
-	size_t	entities_count;
-	size_t	x;
-	size_t	y;
-	size_t	i;
-
-	entities_count = count_entities(data);
-	if (!(data->entities = malloc(entities_count * sizeof(t_entity))))
-		exit_failure(data, "Malloc failed");
-	i = 0;
-	y = -1;
-	while (++y < data->cfg.map_size.y)
-	{
-		x = -1;
-		while (++x < data->cfg.map_size.x)
-		{
-			if (ft_strchr(SPRITE, data->cfg.map[y][x]))
-			{
-				data->entities[i].pos.x = (x * TILE_SIZE) + (TILE_SIZE / 2);
-				data->entities[i].pos.y = (y * TILE_SIZE) + (TILE_SIZE / 2);
-				data->entities[i].angle = M_PI;
-				i++;
-			}
-		}
-	}
-	data->entities_count = entities_count;
-}
-
 void	init_window(t_data *data)
 {
 	int x;
@@ -117,7 +68,8 @@ void	init_window(t_data *data)
 		data->cfg.r.x = x;
 	if (y < data->cfg.r.y)
 		data->cfg.r.y = y;
-	data->mlx.win = mlx_new_window(data->mlx.ptr, data->cfg.r.x, data->cfg.r.y, "Cub3D");
+	data->mlx.win = mlx_new_window(data->mlx.ptr, data->cfg.r.x,
+	data->cfg.r.y, "Cub3D");
 }
 
 void	init(t_data *data)
