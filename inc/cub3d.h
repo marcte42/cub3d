@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/23 10:39:57 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/23 23:05:05 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define SPACE					"\t\v\f "
 # define TILES					"012NSEW "
 # define COLLIDERS				"1"
-# define SPRITE					"2"
+# define ENTITY					"2"
 # define TILE_SIZE				256
 # define MAP_RATIO				3
 
@@ -168,8 +168,7 @@ typedef struct		s_data
 	t_event			event;
 	t_cfg			cfg;
 	t_texture		textures[5];
-	t_entity		*entities;
-	size_t			entities_count;
+	t_list			*entities;
 }					t_data;
 
 int		parse(t_data *data, char *file);
@@ -200,6 +199,10 @@ void	draw_world(t_data *data);
 void	draw_player(t_data *data);
 void	draw_map(t_data *data);
 void	draw_entities(t_data *data);
+void	draw_entity(t_data *data, t_entity *entity);
+void	draw_hud_entities(t_data *data);
+void	draw_hud_entity(t_data *data, t_entity *entity);
+void	ft_entityiter(t_data *data, t_list *lst, void (*f)(t_data *, t_entity *));
 
 float	normalize_angle(float angle);
 int		params_count(char **params);

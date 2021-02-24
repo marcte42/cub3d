@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 18:35:34 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/22 23:13:21 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/23 14:04:20 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,29 +57,9 @@ void	draw_map(t_data *data)
 	}
 }
 
-void	draw_entities(t_data *data)
+void	draw_hud_entities(t_data *data)
 {
-	t_crd	pos;
-	size_t	i;
-
-	i = -1;
-	while (++i < data->entities_count)
-	{
-		pos.x = data->entities[i].pos.x / TILE_SIZE *
-			((data->cfg.r.x / MAP_RATIO) / data->cfg.map_size.x) + 10;
-		pos.y = data->entities[i].pos.y / TILE_SIZE *
-			((data->cfg.r.x / MAP_RATIO) / data->cfg.map_size.x) + 10;
-		data->frame.addr[pos.y * data->frame.line_length / 4 +
-							pos.x] = 0x00FFFF00;
-		data->frame.addr[pos.y * data->frame.line_length / 4 +
-							(pos.x - 1)] = 0x00FFFF00;
-		data->frame.addr[pos.y * data->frame.line_length / 4 +
-							(pos.x + 1)] = 0x00FFFF00;
-		data->frame.addr[(pos.y - 1) * data->frame.line_length / 4 +
-							pos.x] = 0x00FFFF00;
-		data->frame.addr[(pos.y + 1) * data->frame.line_length / 4 +
-							pos.x] = 0x00FFFF00;
-	}
+	ft_entityiter(data, data->entities, draw_hud_entity);
 }
 
 void	draw_player(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 12:21:00 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/23 10:34:39 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/23 23:40:34 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,40 @@ void	find_strip_color(t_data *data, t_strip *strip, size_t x, size_t y)
 	}
 }
 
+void	ft_lstsort(t_list *lst)
+{
+	t_list		*next;
+	t_list		*ptr;
+	t_entity	*entity;
+	t_entity	*entity_next;
+	t_entity	*entity_tmp;
+
+	ptr = lst;
+	while (ptr)
+	{
+		entity = ptr->content;
+		next = ptr->next;
+		while (next)
+		{
+			entity_next = next->content;
+			if (entity->visible && entity_next->visible && entity->distance < entity_next->distance)
+			{
+				entity_tmp = ptr->content;
+				ptr->content = next->content;
+				next->content = entity_tmp;
+			}
+			next = next->next;
+		}
+		ptr = ptr->next;
+	}
+}
+
+void	draw_entities(t_data *data)
+{
+	ft_lstsort(data->entities);
+	ft_entityiter(data, data->entities, draw_entity);
+}
+
 void	draw_world(t_data *data)
 {
 	t_strip	strip;
@@ -89,8 +123,9 @@ void	draw(t_data *data)
 	data->frame.addr = (int *)mlx_get_data_addr(data->frame.ptr,
 		&data->frame.bpp, &data->frame.line_length, &data->frame.endian);
 	draw_world(data);
-	draw_map(data);
 	draw_entities(data);
+	draw_map(data);
+	draw_hud_entities(data);
 	draw_player(data);
 	mlx_put_image_to_window(data->mlx.ptr, data->mlx.win,
 		data->frame.ptr, 0, 0);

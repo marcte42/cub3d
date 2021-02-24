@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 12:47:02 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/23 09:59:43 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/23 11:07:42 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_struct(t_data *data)
 	if (data->rays)
 		free(data->rays);
 	if (data->entities)
-		free(data->entities);
+		ft_lstclear(&data->entities, free);
 	if (data->cfg.no)
 		free(data->cfg.no);
 	if (data->cfg.so)
