@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 17:56:13 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/23 09:55:10 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/24 13:15:40 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	parse_map(char *line, t_data *data)
 	char	*new_line;
 	t_list	*portion;
 
-	len = strlen(line);
+	len = ft_strlen(line);
 	i = -1;
 	while (line[++i])
 	{

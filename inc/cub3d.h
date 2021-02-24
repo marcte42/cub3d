@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/23 23:05:05 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/24 13:13:36 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/uio.h>
-# include <string.h>
 # include <math.h>
 # include <stdio.h>
 # include <errno.h>
@@ -41,7 +40,7 @@
 # define COLLIDERS				"1"
 # define ENTITY					"2"
 # define TILE_SIZE				256
-# define MAP_RATIO				3
+# define MAP_RATIO				5
 
 # define SPEED					20
 # define TURN_SPEED				0.03
