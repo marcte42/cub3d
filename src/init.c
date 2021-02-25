@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 12:41:35 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/23 19:10:34 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/25 20:55:04 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ void	init(t_data *data)
 	init_textures(data);
 	init_player(data);
 	init_entities(data);
-	init_window(data);
+	if (!data->save)
+		init_window(data);
 }

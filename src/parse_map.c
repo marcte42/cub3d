@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 17:56:13 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/24 13:15:40 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/25 19:19:28 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,16 @@ int		spread(int x, int y, t_data *data)
 int		is_map_leaking(t_data *data)
 {
 	return (spread(data->player.pos.x, data->player.pos.y, data));
+}
+
+t_crd	*index_crd(int x, int y)
+{
+	t_crd	*index;
+
+	index = malloc(sizeof(t_crd));
+	index->x = x;
+	index->y = y;
+	return (index);
 }
 
 void	map_to_mat(t_data *data)

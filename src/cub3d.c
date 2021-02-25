@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:56:03 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/24 13:14:09 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/25 20:56:35 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		engine(t_data *data)
 	return (0);
 }
 
-void	setup(t_data *data, char *file, int save)
+void	setup(t_data *data, char *file)
 {
 	parse(data, file);
 	init(data);
@@ -36,21 +36,23 @@ void	cub3d(char *file, int save)
 {
 	t_data data;
 
-	errno = 0;
 	ft_bzero(&data, sizeof(data));
-	setup(&data, file, save);
-	handle_events(&data);
+	data.save = save;
+	setup(&data, file);
+	if (!save)
+		handle_events(&data);
 	mlx_loop_hook(data.mlx.ptr, engine, &data);
 	mlx_loop(data.mlx.ptr);
 }
 
 int		main(int argc, char **argv)
 {
-	if (argc < 2 || argc > 3 || (argc == 3 && ft_strcmp(argv[2], "--save") != 0))
+	if (argc < 2 || argc > 3 ||
+		(argc == 3 && ft_strcmp(argv[2], "--save") != 0))
 	{
 		write(1, "Usage : cub3d [map] [--save]", 27);
 		return (1);
 	}
-	cub3d(argv[1], argc == 3 ? 1 : 0);
+	cub3d(argv[1], argc == 3);
 	return (0);
 }

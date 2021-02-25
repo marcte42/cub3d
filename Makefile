@@ -13,6 +13,7 @@ SRCS =	src/cub3d.c \
 		src/draw.c \
 		src/draw_hud.c \
 		src/entities.c \
+		src/save.c \
 		src/errors.c \
 		src/helpers.c
 

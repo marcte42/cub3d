@@ -1,9 +1,9 @@
-R 1280 720
+R 640 320
 
-NO ./txt/crate_n.xpm
-SO ./txt/crate_s.xpm
-WE ./txt/crate_w.xpm
-EA ./txt/crate_e.xpm
+NO ./txt/CRATE02.xpm
+SO ./txt/CRATE05.xpm
+WE ./txt/CRATE25.xpm
+EA ./txt/CRATE02.xpm
 S ./txt/sprite.xpm
 
 F 220,100,0

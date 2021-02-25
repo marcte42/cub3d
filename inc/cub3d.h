@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/24 13:13:36 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/25 20:54:00 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ typedef	struct		s_entity
 	t_fcrd			pos;
 	float			distance;
 	float			angle;
-	int				texture;
 	int				visible;
 }					t_entity;
 
@@ -168,7 +167,10 @@ typedef struct		s_data
 	t_cfg			cfg;
 	t_texture		textures[5];
 	t_list			*entities;
+	int				save;
 }					t_data;
+
+void	save(t_data *data);
 
 int		parse(t_data *data, char *file);
 void	parse_map(char *line, t_data *data);

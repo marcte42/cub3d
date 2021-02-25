@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 19:00:08 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/24 08:39:17 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/02/24 19:52:16 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	entity_visible(t_data *data, t_entity *entity)
 	angle -= (angle > M_PI) ? M_PI * 2 : 0;
 	angle += (angle < -M_PI) ? M_PI * 2 : 0;
 	angle = fabs(angle);
-	if (angle < (FOV / 2))
+	if (angle < (FOV / 2) + 0.2)
 	{
 		entity->visible = 1;
 		entity->angle = angle;
@@ -56,45 +56,37 @@ void	draw_hud_entity(t_data *data, t_entity *entity)
 
 void	draw_entity(t_data *data, t_entity *entity)
 {
-	float	height;
-	float	width;
+	float	size;
 	float	top;
 	float	tmp_top;
 	float	bottom;
-	float	angle;
-	float	x_pos;
 	float	sprite_left;
 	float	sprite_right;
-	float	ratio_x;
-	float	ratio_y;
+	float	ratio;
 	int		color;
 
 	if (entity->visible)
 	{
-		height = (TILE_SIZE * 3 / entity->distance) * (data->cfg.r.x / 2) * tan(FOV / 2);
-		width = height;
-		top = (data->cfg.r.y / 2) - (height / 2);
+		size = (TILE_SIZE * 3 / entity->distance) * (data->cfg.r.x / 2) * tan(FOV / 2);
+		top = (data->cfg.r.y / 2) - (size / 2);
 		tmp_top = top;
 		top = (top < 0) ? 0 : top;
-		bottom = (data->cfg.r.y / 2) + (height / 2);
+		bottom = (data->cfg.r.y / 2) + (size / 2);
 		bottom = (bottom > data->cfg.r.y) ? data->cfg.r.y : bottom;
-		angle = atan2(entity->pos.y - data->player.pos.y, entity->pos.x - data->player.pos.x) + data->player.angle;
-		x_pos = tan(angle) * (data->cfg.r.x / 2) * tan(FOV / 2) * 3;
-		sprite_left = (data->cfg.r.x / 2) + x_pos - (width / 2);
-		sprite_right = sprite_left + width;
+		sprite_left = (data->cfg.r.x / 2) + tan(atan2(entity->pos.y - data->player.pos.y, entity->pos.x - data->player.pos.x) + data->player.angle) * (data->cfg.r.x / 2) * tan(FOV / 2) * 3 - (size / 2);
+		sprite_right = sprite_left + size;
+		ratio = (float)data->textures[4].width / size;
 
-		for (int y = top; y < bottom; y++)
+		for (int y = top + 1; y < bottom; y++)
 		{
 			for (int x = sprite_left; x < sprite_right; x++)
 			{
 				if (x > 0 && x < data->cfg.r.x && y > 0 && y < data->cfg.r.y && data->rays[x].distance > entity->distance)
 				{
-					ratio_x = (float)TILE_SIZE / height;
-					ratio_y = (float)TILE_SIZE / width;
-					int y_offset = (int)((y - tmp_top) * ratio_y);
-					int x_offset = (int)((x - sprite_left) * ratio_x);
+					int y_offset = (int)((y - tmp_top) * ratio);
+					int x_offset = (int)((x - sprite_left) * ratio);
 					color = data->textures[4].addr[y_offset * data->textures[4].line_length / 4 + x_offset];
-					if (color != 0x00ff38cb && y_offset > 0)
+					if (color != 0x00ff38cb)
 						data->frame.addr[(y * data->frame.line_length) / 4 + x] = color;
 				}
 			}
