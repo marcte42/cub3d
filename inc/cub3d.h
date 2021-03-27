@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/25 20:54:00 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 13:16:22 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@
 # define TILES					"012NSEW "
 # define COLLIDERS				"1"
 # define ENTITY					"2"
-# define TILE_SIZE				256
+# define TILE_SIZE				64
 # define MAP_RATIO				5
+# define T_COUNT				5
 
-# define SPEED					20
+# define SPEED					8
 # define TURN_SPEED				0.03
 # define PLAYER_SIZE			32
 # define FOV					(M_PI / 3)
@@ -112,11 +113,7 @@ typedef struct		s_cfg
 {
 	int				error;
 	t_crd			r;
-	char			*no;
-	char			*so;
-	char			*we;
-	char			*ea;
-	char			*s;
+	char			*textures[T_COUNT];
 	int				f;
 	char			*f_str;
 	int				c;
@@ -165,7 +162,7 @@ typedef struct		s_data
 	t_ray			*rays;
 	t_event			event;
 	t_cfg			cfg;
-	t_texture		textures[5];
+	t_texture		textures[T_COUNT];
 	t_list			*entities;
 	int				save;
 }					t_data;

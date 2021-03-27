@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 21:54:27 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/23 22:38:48 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 12:42:29 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ void	parse_texture(char **params, t_data *data)
 	else if ((fd = open(params[1], O_RDONLY)) >= 0)
 	{
 		if (ft_strcmp(params[0], "NO") == 0)
-			data->cfg.no = ft_strdup(params[1]);
+			data->cfg.textures[0] = ft_strdup(params[1]);
 		if (ft_strcmp(params[0], "SO") == 0)
-			data->cfg.so = ft_strdup(params[1]);
+			data->cfg.textures[1] = ft_strdup(params[1]);
 		if (ft_strcmp(params[0], "WE") == 0)
-			data->cfg.we = ft_strdup(params[1]);
+			data->cfg.textures[2] = ft_strdup(params[1]);
 		if (ft_strcmp(params[0], "EA") == 0)
-			data->cfg.ea = ft_strdup(params[1]);
+			data->cfg.textures[3] = ft_strdup(params[1]);
 		if (ft_strcmp(params[0], "S") == 0)
-			data->cfg.s = ft_strdup(params[1]);
+			data->cfg.textures[4] = ft_strdup(params[1]);
 		close(fd);
 	}
 	else

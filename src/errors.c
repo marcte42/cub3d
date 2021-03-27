@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 12:47:02 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/23 11:07:42 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 12:52:20 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,16 @@ void	free_params(char **params)
 
 void	free_struct(t_data *data)
 {
+	int i;
+
 	if (data->rays)
 		free(data->rays);
 	if (data->entities)
 		ft_lstclear(&data->entities, free);
-	if (data->cfg.no)
-		free(data->cfg.no);
-	if (data->cfg.so)
-		free(data->cfg.so);
-	if (data->cfg.we)
-		free(data->cfg.we);
-	if (data->cfg.ea)
-		free(data->cfg.ea);
-	if (data->cfg.s)
-		free(data->cfg.s);
+	i = -1;
+	while (++i < T_COUNT)
+		if (data->cfg.textures[i])
+			free(data->cfg.textures[i]);
 	if (data->cfg.c_str)
 		free(data->cfg.c_str);
 	if (data->cfg.f_str)
@@ -48,7 +44,8 @@ void	free_struct(t_data *data)
 		ft_lstclear(&data->cfg.map_lst, free);
 	if (data->cfg.map)
 	{
-		while (--data->cfg.map_size.y >= 0 && data->cfg.map[data->cfg.map_size.y])
+		while (--data->cfg.map_size.y >= 0
+				&& data->cfg.map[data->cfg.map_size.y])
 			free(data->cfg.map[data->cfg.map_size.y]);
 		free(data->cfg.map);
 	}
