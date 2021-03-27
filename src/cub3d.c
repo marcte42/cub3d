@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:56:03 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/25 20:56:35 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 13:30:45 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@ void	setup(t_data *data, char *file)
 {
 	parse(data, file);
 	init(data);
-}
-
-void	update(t_data *data)
-{
-	update_player(data);
-	update_rays(data);
-	update_entities(data);
 }
 
 void	cub3d(char *file, int save)

@@ -6,13 +6,13 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 17:56:13 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/25 19:19:28 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 15:06:02 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		spread(int x, int y, t_data *data)
+int		is_map_leaking(int x, int y, t_data *data)
 {
 	if (data->cfg.map[y][x] == ' ' ||
 	(ft_strchr("02NSWE ", data->cfg.map[y][x]) && (y - 1 < 0 || x - 1 < 0 ||
@@ -25,31 +25,16 @@ int		spread(int x, int y, t_data *data)
 	{
 		if (data->cfg.map[y][x] == '0')
 			data->cfg.map[y][x] = '-';
-		if (spread(x, y - 1, data))
+		if (is_map_leaking(x, y - 1, data))
 			return (1);
-		if (spread(x - 1, y, data))
+		if (is_map_leaking(x - 1, y, data))
 			return (1);
-		if (spread(x, y + 1, data))
+		if (is_map_leaking(x, y + 1, data))
 			return (1);
-		if (spread(x + 1, y, data))
+		if (is_map_leaking(x + 1, y, data))
 			return (1);
 	}
 	return (0);
-}
-
-int		is_map_leaking(t_data *data)
-{
-	return (spread(data->player.pos.x, data->player.pos.y, data));
-}
-
-t_crd	*index_crd(int x, int y)
-{
-	t_crd	*index;
-
-	index = malloc(sizeof(t_crd));
-	index->x = x;
-	index->y = y;
-	return (index);
 }
 
 void	map_to_mat(t_data *data)

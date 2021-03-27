@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 21:54:27 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 12:42:29 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 15:04:22 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int		parse(t_data *data, char *file)
 		exit_failure(data, "Empty file");
 	map_to_mat(data);
 	parse_player(data);
-	if (is_map_leaking(data))
+	if (is_map_leaking(data->player.pos.x, data->player.pos.y, data))
 		exit_failure(data, "Map is leaking");
 	if (line)
 		free(line);

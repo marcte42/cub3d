@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 13:16:22 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 15:22:46 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@
 # define MAP_LEAKING			207
 # define PLAYER_ERROR			208
 # define MAP_BLANK_LINE			209
-
-typedef int			t_bool;
 
 typedef struct		s_crd
 {
@@ -152,6 +150,13 @@ typedef	struct		s_entity
 	float			distance;
 	float			angle;
 	int				visible;
+	float			size;
+	float			top;
+	float			real_top;
+	float			bottom;
+	float			sprite_left;
+	float			sprite_right;
+	float			ratio;
 }					t_entity;
 
 typedef struct		s_data
@@ -174,7 +179,7 @@ void	parse_map(char *line, t_data *data);
 int		arg_exists(char **params, t_data *data);
 int		cfg_filled(t_data *data);
 void	map_to_mat(t_data *data);
-int		is_map_leaking(t_data *data);
+int		is_map_leaking(int x, int y, t_data *data);
 void	parse_player(t_data *data);
 float	get_angle(char direction);
 void	error_params(t_data *data, char **params, char *error);
@@ -182,10 +187,8 @@ void	free_params(char **params);
 int		ft_issuffix(char *s1, char *s2);
 
 void	init(t_data *data);
-void	load(t_data *data);
+void	init_textures(t_data *data);
 void	init_entities(t_data *data);
-
-void	handle_events(t_data *data);
 
 void	update(t_data *data);
 void	update_player(t_data *data);
@@ -194,13 +197,13 @@ void	update_entities(t_data *data);
 
 void	draw(t_data *data);
 void	draw_world(t_data *data);
+void	draw_entities(t_data *data);
 void	draw_player(t_data *data);
 void	draw_map(t_data *data);
-void	draw_entities(t_data *data);
-void	draw_entity(t_data *data, t_entity *entity);
 void	draw_hud_entities(t_data *data);
-void	draw_hud_entity(t_data *data, t_entity *entity);
 void	ft_entityiter(t_data *data, t_list *lst, void (*f)(t_data *, t_entity *));
+
+void	handle_events(t_data *data);
 
 float	normalize_angle(float angle);
 int		params_count(char **params);

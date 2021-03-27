@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 18:35:34 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/25 19:25:43 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 14:05:44 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,28 @@ void	draw_map(t_data *data)
 							data->cfg.map_size.x, 0x00000000);
 		}
 	}
+}
+
+void	draw_hud_entity(t_data *data, t_entity *entity)
+{
+	t_crd	pos;
+	int		color;
+
+	color = entity->visible ? 0x00FF0000 : 0x00FFFF00;
+	pos.x = entity->pos.x / TILE_SIZE *
+		((data->cfg.r.x / MAP_RATIO) / data->cfg.map_size.x) + 10;
+	pos.y = entity->pos.y / TILE_SIZE *
+		((data->cfg.r.x / MAP_RATIO) / data->cfg.map_size.x) + 10;
+	data->frame.addr[pos.y * data->frame.line_length / 4 +
+						pos.x] = color;
+	data->frame.addr[pos.y * data->frame.line_length / 4 +
+						(pos.x - 1)] = color;
+	data->frame.addr[pos.y * data->frame.line_length / 4 +
+						(pos.x + 1)] = color;
+	data->frame.addr[(pos.y - 1) * data->frame.line_length / 4 +
+						pos.x] = color;
+	data->frame.addr[(pos.y + 1) * data->frame.line_length / 4 +
+						pos.x] = color;
 }
 
 void	draw_hud_entities(t_data *data)

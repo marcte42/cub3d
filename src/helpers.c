@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 10:13:52 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/22 23:48:16 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 14:21:34 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,14 @@ float	hit_distance(float p1_x, float p1_y, float p2_x, float p2_y)
 	if (y < 0)
 		y *= -1;
 	return (sqrtf(pow(x, 2) + pow(y, 2)));
+}
+
+void	ft_entityiter(t_data *data, t_list *lst,
+						void (*f)(t_data *, t_entity *))
+{
+	if (lst)
+	{
+		f(data, lst->content);
+		ft_entityiter(data, lst->next, f);
+	}
 }
