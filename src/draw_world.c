@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 13:43:11 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 13:43:55 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/30 00:19:20 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	find_strip_color(t_data *data, t_strip *strip, size_t x, size_t y)
 void	draw_world(t_data *data)
 {
 	t_strip	strip;
-	size_t	x;
-	size_t	y;
+	int		x;
+	int		y;
 
 	x = -1;
 	while (++x < data->cfg.r.x)

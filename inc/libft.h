@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 22:12:30 by marc              #+#    #+#             */
-/*   Updated: 2021/02/03 13:47:26 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 17:00:26 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int				ft_isascii(int c);
 int				ft_isprint(int c);
 int				ft_isalpha(int c);
 int				ft_isalnum(int c);
+int				ft_onlydigit(const char *s);
 char			*strchr(const char *s, int c);
 size_t			ft_strlen(const char *s);
 int				ft_tolower(int c);

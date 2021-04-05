@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 18:35:34 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 14:05:44 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/29 23:49:00 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	draw_map(t_data *data)
 			if (data->cfg.map[i][j] == '1')
 				draw_tile(data, pos, (data->cfg.r.x / MAP_RATIO) /
 							data->cfg.map_size.x, 0x00FF0000);
-			if (ft_strchr("-2NSWE", data->cfg.map[i][j]))
+			if (ft_strchr("-2NSWE0", data->cfg.map[i][j]))
 				draw_tile(data, pos, (data->cfg.r.x / MAP_RATIO) /
 							data->cfg.map_size.x, 0x00000000);
 		}

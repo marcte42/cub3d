@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 15:22:46 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/30 11:08:17 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@
 # define MAP_RATIO				5
 # define T_COUNT				5
 
-# define SPEED					8
+# define SPEED					6
 # define TURN_SPEED				0.03
-# define PLAYER_SIZE			32
+# define PLAYER_SIZE			5
 # define FOV					(M_PI / 3)
 
 # define ARG_EXISTS				201
@@ -207,7 +207,6 @@ void	handle_events(t_data *data);
 
 float	normalize_angle(float angle);
 int		params_count(char **params);
-int		only_digit(const char *s);
 int		is_wall(t_data *data, float x, float y);
 float	hit_distance(float p1_x, float p1_y, float p2_x, float p2_y);
 void	print_matrix(t_data *data);

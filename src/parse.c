@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 21:54:27 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 15:04:22 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 16:56:54 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	parse_resolution(char **params, t_data *data)
 {
 	if (arg_exists(params, data))
 		error_params(data, params, "Duplicated parameters");
-	else if (params_count(params) != 3 || !only_digit(params[1]) ||
-		!only_digit(params[2]) || ft_atoi(params[1]) == 0 ||
+	else if (params_count(params) != 3 || !ft_onlydigit(params[1]) ||
+		!ft_onlydigit(params[2]) || ft_atoi(params[1]) == 0 ||
 		ft_atoi(params[2]) == 0)
 		error_params(data, params, "Resolution parameter badly formated");
 	else
@@ -109,7 +109,7 @@ int		parse(t_data *data, char *file)
 	int		fd;
 
 	if ((fd = open(file, O_RDONLY)) < 0 || !ft_issuffix(file, ".cub"))
-		exit_failure(data, "Bad filename");
+		exit_failure(data, "File not found or bad suffix");
 	line = 0;
 	while (get_next_line(fd, &line))
 	{

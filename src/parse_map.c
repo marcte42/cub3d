@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 17:56:13 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 15:06:02 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/05 16:00:49 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,9 @@
 int		is_map_leaking(int x, int y, t_data *data)
 {
 	if (data->cfg.map[y][x] == ' ' ||
-	(ft_strchr("02NSWE ", data->cfg.map[y][x]) && (y - 1 < 0 || x - 1 < 0 ||
+		(ft_strchr("02NSWE ", data->cfg.map[y][x]) && (y - 1 < 0 || x - 1 < 0 ||
 		y + 1 >= data->cfg.map_size.y || x + 1 >= data->cfg.map_size.x)))
-	{
-		data->cfg.map[y][x] = '#';
 		return (1);
-	}
 	if (ft_strchr("0NSWE", data->cfg.map[y][x]))
 	{
 		if (data->cfg.map[y][x] == '0')

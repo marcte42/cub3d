@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update.c                                           :+:      :+:    :+:   */
+/*   ft_onlydigit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/27 13:30:33 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 17:53:47 by mterkhoy         ###   ########.fr       */
+/*   Created: 2021/03/27 16:59:27 by mterkhoy          #+#    #+#             */
+/*   Updated: 2021/03/27 16:59:40 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-void	update(t_data *data)
+int		ft_onlydigit(const char *s)
 {
-	update_player(data);
-	update_rays(data);
-	update_entities(data);
+	while (*s)
+	{
+		if (!ft_isdigit(*s))
+			return (0);
+		s++;
+	}
+	return (1);
 }

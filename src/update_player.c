@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 13:22:56 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/22 18:32:42 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/30 12:36:02 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,20 @@
 
 int		is_colliding(t_fcrd pos, t_data *data)
 {
-	if (ft_strchr(COLLIDERS,
-		data->cfg.map[(int)(pos.y / TILE_SIZE)][(int)(pos.x / TILE_SIZE)]))
+	if (ft_strchr(COLLIDERS, data->cfg.map
+		[(int)(pos.y / TILE_SIZE)][(int)(pos.x / TILE_SIZE)]))
+		return (1);
+	if (ft_strchr(COLLIDERS, data->cfg.map
+		[(int)((pos.y + PLAYER_SIZE) / TILE_SIZE)][(int)(pos.x / TILE_SIZE)]))
+		return (1);
+	if (ft_strchr(COLLIDERS, data->cfg.map
+		[(int)((pos.y - PLAYER_SIZE) / TILE_SIZE)][(int)(pos.x / TILE_SIZE)]))
+		return (1);
+	if (ft_strchr(COLLIDERS, data->cfg.map
+		[(int)(pos.y / TILE_SIZE)][(int)((pos.x + PLAYER_SIZE) / TILE_SIZE)]))
+		return (1);
+	if (ft_strchr(COLLIDERS, data->cfg.map
+		[(int)(pos.y / TILE_SIZE)][(int)((pos.x - PLAYER_SIZE) / TILE_SIZE)]))
 		return (1);
 	return (0);
 }

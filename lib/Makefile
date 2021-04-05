@@ -6,7 +6,7 @@
 #    By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/17 22:01:09 by marc              #+#    #+#              #
-#    Updated: 2021/01/24 17:49:21 by mterkhoy         ###   ########.fr        #
+#    Updated: 2021/03/27 17:00:52 by mterkhoy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC =	./libft/ft_isalnum.c	\
 		./libft/ft_isascii.c	\
 		./libft/ft_isdigit.c	\
 		./libft/ft_isprint.c	\
+		./libft/ft_onlydigit.c	\
 		./libft/ft_strlen.c		\
 		./libft/ft_tolower.c	\
 		./libft/ft_toupper.c	\

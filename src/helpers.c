@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 10:13:52 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 14:21:34 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:32:39 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,6 @@ float	normalize_angle(float angle)
 	return (angle);
 }
 
-void	print_matrix(t_data *data)
-{
-	size_t i;
-	size_t j;
-
-	i = -1;
-	while (++i < data->cfg.map_size.y)
-	{
-		j = -1;
-		while (++j < data->cfg.map_size.x)
-		{
-			printf("%c", data->cfg.map[i][j]);
-		}
-		printf("\n");
-	}
-}
-
 int		params_count(char **params)
 {
 	size_t i;
@@ -48,17 +31,6 @@ int		params_count(char **params)
 	while (params[i])
 		i++;
 	return (i);
-}
-
-int		only_digit(const char *s)
-{
-	while (*s)
-	{
-		if (!ft_isdigit(*s))
-			return (0);
-		s++;
-	}
-	return (1);
 }
 
 int		ft_issuffix(char *s1, char *s2)
