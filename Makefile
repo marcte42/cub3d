@@ -43,7 +43,7 @@ clean :
 	rm -rf $(OBJS)
 
 fclean : clean
-	$(MAKE) -C ./lib/ fclean
+	rm -rf ./lib/libft.a
 	rm -rf $(NAME)
 
 re : fclean all

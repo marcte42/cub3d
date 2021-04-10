@@ -34,7 +34,10 @@ void	cub3d(char *file, int save)
 	setup(&data, file);
 	if (!save)
 		handle_events(&data);
-	mlx_loop_hook(data.mlx.ptr, engine, &data);
+	if (!save)
+		mlx_loop_hook(data.mlx.ptr, engine, &data);
+	else 
+		engine(&data);
 	mlx_loop(data.mlx.ptr);
 }
 
