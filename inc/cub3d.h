@@ -120,6 +120,7 @@ typedef struct		s_cfg
 	char			*c_str;
 	t_list			*map_lst;
 	char			**map;
+	char			**map_tmp;
 	t_crd			map_size;
 }					t_cfg;
 

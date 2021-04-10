@@ -6,7 +6,7 @@
 #    By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/17 22:01:09 by marc              #+#    #+#              #
-#    Updated: 2021/03/27 17:00:52 by mterkhoy         ###   ########.fr        #
+#    Updated: 2021/04/10 13:53:57 by marcte           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,13 +69,17 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
+	$(MAKE) -C ./mlx/ all
+	cp ./mlx/libmlx.a .
 	ar rc $(NAME) $(OBJ)
 
 clean:
+	$(MAKE) -C ./mlx/ clean
 	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f libmlx.a
 
 re: fclean all
 

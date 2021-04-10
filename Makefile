@@ -20,7 +20,8 @@ SRCS =	src/cub3d.c \
 	src/draw_hud.c \
 	src/save.c \
 	src/errors.c \
-	src/helpers.c
+	src/helpers.c \
+	src/helpers2.c
 
 CC = gcc
 
