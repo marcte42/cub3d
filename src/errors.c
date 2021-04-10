@@ -24,6 +24,28 @@ void	free_params(char **params)
 	free(params);
 }
 
+void	free_maps(t_data *data)
+{
+	if (data->cfg.map)
+	{
+		while (--data->cfg.map_size.y >= 0
+				&& data->cfg.map[data->cfg.map_size.y])
+		{
+			free(data->cfg.map[data->cfg.map_size.y]);
+		}
+		free(data->cfg.map);
+	}
+	if (data->cfg.map_tmp)
+	{
+		while (--data->cfg.map_size.y >= 0
+				&& data->cfg.map[data->cfg.map_size.y])
+		{
+			free(data->cfg.map_tmp[data->cfg.map_size.y]);
+		}
+		free(data->cfg.map_tmp);
+	}
+}
+
 void	free_struct(t_data *data)
 {
 	int i;
@@ -37,17 +59,7 @@ void	free_struct(t_data *data)
 	(data->cfg.c_str) ? free(data->cfg.c_str) : 0;
 	(data->cfg.f_str) ? free(data->cfg.f_str) : 0;
 	(data->cfg.map_lst) ? ft_lstclear(&data->cfg.map_lst, free) : 0;
-	if (data->cfg.map && data->cfg.map_tmp)
-	{
-		while (--data->cfg.map_size.y >= 0
-				&& data->cfg.map[data->cfg.map_size.y])
-		{
-			free(data->cfg.map[data->cfg.map_size.y]);
-			free(data->cfg.map_tmp[data->cfg.map_size.y]);
-		}
-		free(data->cfg.map);
-		free(data->cfg.map_tmp);
-	}
+	free_maps(data);
 	if (data->mlx.win)
 		mlx_destroy_window(data->mlx.ptr, data->mlx.win);
 	if (data->mlx.ptr)

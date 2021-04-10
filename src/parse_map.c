@@ -6,38 +6,11 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 17:56:13 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/10 16:36:35 by marcte           ###   ########.fr       */
+/*   Updated: 2021/04/10 16:46:38 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-t_crd	ft_lstpop(t_list **lst)
-{
-	t_list	*tmp;
-	t_crd	p;
-	t_crd	*pp;
-
-	tmp = *lst;
-	pp = (*lst)->content;
-	p.x = pp->x;
-	p.y = pp->y;
-	*lst = tmp->next;
-	free(tmp->content);
-	free(tmp);
-	return (p);
-}
-
-t_crd	*point_create(t_data *data, int x, int y)
-{
-	t_crd	*p;
-
-	if (!(p = malloc(sizeof(t_crd))))
-		exit_failure(data, "Malloc failed");
-	p->x = x;
-	p->y = y;
-	return (p);
-}
 
 int		spread(t_data *data, t_list **list, t_crd p)
 {
