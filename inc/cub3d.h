@@ -25,12 +25,13 @@
 # include <stdio.h>
 # include <errno.h>
 
-# define Z_KEY					13
-# define Q_KEY					0
-# define S_KEY					1
-# define D_KEY					2
-# define LEFT_ARROW				123
-# define RIGHT_ARROW			124
+# define Z_KEY					122
+# define Q_KEY					113
+# define S_KEY					115
+# define D_KEY					100
+# define LEFT_ARROW				65361
+# define RIGHT_ARROW			65363
+# define ESC					65307
 
 # define KEY_PRESS				2
 # define KEY_RELEASE			3
@@ -46,7 +47,7 @@
 # define SPEED					6
 # define TURN_SPEED				0.02
 # define PLAYER_SIZE			5
-# define FOV					(M_PI / 3)
+# define FOV					((float)M_PI / 3)
 
 # define ARG_EXISTS				201
 # define PARAM_INVALID			202

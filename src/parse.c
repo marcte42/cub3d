@@ -97,7 +97,7 @@ void	parse_selector(char *line, t_data *data)
 		ft_strcmp(params[0], "C") == 0))
 		parse_color(params, data);
 	else if (params[0] && !cfg_filled(data))
-		error_params(data, params, "Unknown parameter");
+		error_params(data, params, "Unknown parameter or a parameter is missing");
 	else if ((params[0] || data->cfg.map_lst) && cfg_filled(data))
 		parse_map(line, data);
 	free_params(params);
@@ -121,7 +121,10 @@ int		parse(t_data *data, char *file)
 	map_to_mat(data);
 	parse_player(data);
 	if (is_map_leaking(data->player.pos.x, data->player.pos.y, data))
+	{
+		free(line);
 		exit_failure(data, "Map is leaking");
+	}
 	if (line)
 		free(line);
 	return (1);

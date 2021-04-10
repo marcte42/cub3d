@@ -20,6 +20,8 @@ int		mlx_end_loop(t_data *data)
 
 int		key_press(int keycode, t_data *data)
 {
+	if (keycode == ESC)
+		exit_failure(data, 0);
 	if (keycode == Z_KEY)
 		data->event.front = 1;
 	if (keycode == S_KEY)
@@ -56,5 +58,5 @@ void	handle_events(t_data *data)
 {
 	mlx_hook(data->mlx.win, KEY_PRESS, 1L << 0, key_press, data);
 	mlx_hook(data->mlx.win, KEY_RELEASE, 1L << 1, key_release, data);
-	mlx_hook(data->mlx.win, 17, 1L << 5, mlx_end_loop, data);
+	mlx_hook(data->mlx.win, 33, 1L << 5, mlx_end_loop, data);
 }

@@ -43,7 +43,7 @@ int		main(int argc, char **argv)
 	if (argc < 2 || argc > 3 ||
 		(argc == 3 && ft_strcmp(argv[2], "--save") != 0))
 	{
-		write(1, "Usage : cub3d [map] [--save]", 27);
+		write(1, "Usage : cub3D [map] [--save]\n", 29);
 		return (1);
 	}
 	cub3d(argv[1], argc == 3);

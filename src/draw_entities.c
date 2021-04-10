@@ -50,8 +50,8 @@ void	draw_texel(t_data *data, t_entity *entity, size_t x, size_t y)
 	if (x > 0 && x < data->cfg.r.x && y > 0
 		&& y < data->cfg.r.y && data->rays[x].distance > entity->distance)
 	{
-		y_offset = (int)((y - entity->real_top) * entity->ratio);
-		x_offset = (int)((x - entity->sprite_left) * entity->ratio);
+		y_offset = (int)((y - (int)entity->real_top) * entity->ratio);
+		x_offset = (int)((x - (int)entity->sprite_left) * entity->ratio);
 		texel = data->textures[4].addr[y_offset * data->textures[4].line_length
 			/ 4 + x_offset];
 		if (texel != 0x00ff38cb)
@@ -61,13 +61,18 @@ void	draw_texel(t_data *data, t_entity *entity, size_t x, size_t y)
 
 void	process_entity(t_data *data, t_entity *entity)
 {
-	entity->size = (((float)TILE_SIZE * 3) / entity->distance) * (data->cfg.r.x / 2) * tan(FOV / 2);
+	entity->size = (((float)TILE_SIZE * 3)
+		/ entity->distance) * (data->cfg.r.x / 2) * tan(FOV / 2);
 	entity->top = (data->cfg.r.y / 2) - (entity->size / 2);
 	entity->real_top = entity->top;
 	entity->top = (entity->top < 0) ? 0 : entity->top;
 	entity->bottom = (data->cfg.r.y / 2) + (entity->size / 2);
-	entity->bottom = (entity->bottom > data->cfg.r.y) ? data->cfg.r.y : entity->bottom;
-	entity->sprite_left = (data->cfg.r.x / 2) + tan(atan2(entity->pos.y - data->player.pos.y, entity->pos.x - data->player.pos.x) + data->player.angle) * (data->cfg.r.x / 2) * tan(FOV / 2) * 3 - (entity->size / 2);
+	entity->bottom = (entity->bottom > data->cfg.r.y)
+		? data->cfg.r.y : entity->bottom;
+	entity->sprite_left = (data->cfg.r.x / 2)
+		+ tan(atan2(entity->pos.y - data->player.pos.y, entity->pos.x
+		- data->player.pos.x) + data->player.angle)
+		* (data->cfg.r.x / 2) * tan(FOV / 2) * 3 - (entity->size / 2);
 	entity->sprite_right = entity->sprite_left + entity->size;
 	entity->ratio = (float)data->textures[4].width / entity->size;
 }
@@ -81,7 +86,7 @@ void	draw_entity(t_data *data, t_entity *entity)
 	{
 		process_entity(data, entity);
 		y = entity->top + 1;
-		while (y < entity->bottom)
+		while (y < entity->bottom - 1)
 		{
 			x = entity->sprite_left;
 			while (x < entity->sprite_right)

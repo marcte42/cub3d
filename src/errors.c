@@ -36,12 +36,9 @@ void	free_struct(t_data *data)
 	while (++i < T_COUNT)
 		if (data->cfg.textures[i])
 			free(data->cfg.textures[i]);
-	if (data->cfg.c_str)
-		free(data->cfg.c_str);
-	if (data->cfg.f_str)
-		free(data->cfg.f_str);
-	if (data->cfg.map_lst)
-		ft_lstclear(&data->cfg.map_lst, free);
+	(data->cfg.c_str) ? free(data->cfg.c_str) : 0;
+	(data->cfg.f_str) ? free(data->cfg.f_str) : 0;
+	(data->cfg.map_lst) ? ft_lstclear(&data->cfg.map_lst, free) : 0;
 	if (data->cfg.map)
 	{
 		while (--data->cfg.map_size.y >= 0
@@ -51,6 +48,8 @@ void	free_struct(t_data *data)
 	}
 	if (data->mlx.win)
 		mlx_destroy_window(data->mlx.ptr, data->mlx.win);
+	if (data->mlx.ptr)
+		mlx_destroy_display(data->mlx.ptr);
 }
 
 void	exit_failure(t_data *data, char *error)
@@ -61,10 +60,8 @@ void	exit_failure(t_data *data, char *error)
 		ft_putstr_fd("Error\n", STDERR_FILENO);
 		ft_putstr_fd(error, STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
-		system("leaks cub3d");
 		exit(1);
 	}
-	system("leaks cub3d");
 	exit(0);
 }
 

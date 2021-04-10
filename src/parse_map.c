@@ -12,82 +12,69 @@
 
 #include "cub3d.h"
 
-void	*ft_lstpop(t_list **lst)
+t_crd	ft_lstpop(t_list **lst)
 {
-	t_list *tmp;
+	t_list 	*tmp;
+	t_crd	p;
+	t_crd	*pp;
 
 	tmp = *lst;
-	free(*lst);
+	pp = (*lst)->content;
+	p.x = pp->x;
+	p.y = pp->y;
 	*lst = tmp->next;
-	return (tmp->content);
+	free(tmp->content);
+	free(tmp);
+	return (p);
 }
 
-t_crd	*point_create(int x, int y)
+t_crd	*point_create(t_data *data, int x, int y)
 {
 	t_crd	*p;
 
-	p = malloc(sizeof(t_crd));
+	if (!(p = malloc(sizeof(t_crd))))
+		exit_failure(data, "Malloc failed");
 	p->x = x;
 	p->y = y;
 	return (p);
 }
 
-void	print_map(t_data *data)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i < data->cfg.map_size.y)
-	{
-		j = 0;
-		while (j < data->cfg.map_size.x)
-		{
-			printf("%c", data->cfg.map[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-}
-
 int		is_map_leaking(int x, int y, t_data *data)
 {
 	t_list	*list;
-	t_crd	*p;
+	t_crd	p;
 
 	list = NULL;
-	list = ft_lstadd_front(&list, ft_lstnew(point_create(x, y)));
+	list = ft_lstadd_front(&list, ft_lstnew(point_create(data, x, y)));
 	while (list)
 	{
 		p = ft_lstpop(&list);
-		if (data->cfg.map[p->y][p->x] == '-' && (p->y == 0 || p->x  == 0 ||
-		p->y == data->cfg.map_size.y - 1 || p->x == data->cfg.map_size.x - 1))
+		if (data->cfg.map[p.y][p.x] == '-' && (p.y == 0 || p.x  == 0 ||
+		p.y == data->cfg.map_size.y - 1 || p.x == data->cfg.map_size.x - 1))
 		{
-			free(p);
+			ft_lstclear(&list, free);
 			return (1);
 		}
-		if (ft_strchr("0 ", data->cfg.map[p->y - 1][p->x]))
+		if (ft_strchr("0 ", data->cfg.map[p.y - 1][p.x]))
 		{
-			data->cfg.map[p->y - 1][p->x] = '-';
-			ft_lstadd_front(&list, ft_lstnew(point_create(p->x, p->y - 1)));
+			data->cfg.map[p.y - 1][p.x] = '-';
+			ft_lstadd_front(&list, ft_lstnew(point_create(data, p.x, p.y - 1)));
 		}
-		if (ft_strchr("0 ", data->cfg.map[p->y + 1][p->x]))
+		if (ft_strchr("0 ", data->cfg.map[p.y + 1][p.x]))
 		{
-			data->cfg.map[p->y + 1][p->x] = '-';
-			ft_lstadd_front(&list, ft_lstnew(point_create(p->x, p->y + 1)));
+			data->cfg.map[p.y + 1][p.x] = '-';
+			ft_lstadd_front(&list, ft_lstnew(point_create(data, p.x, p.y + 1)));
 		}
-		if (ft_strchr("0 ", data->cfg.map[p->y][p->x - 1]))
+		if (ft_strchr("0 ", data->cfg.map[p.y][p.x - 1]))
 		{
-			data->cfg.map[p->y][p->x - 1] = '-';
-			ft_lstadd_front(&list, ft_lstnew(point_create(p->x - 1, p->y)));
+			data->cfg.map[p.y][p.x - 1] = '-';
+			ft_lstadd_front(&list, ft_lstnew(point_create(data, p.x - 1, p.y)));
 		}
-		if (ft_strchr("0 ", data->cfg.map[p->y][p->x + 1]))
+		if (ft_strchr("0 ", data->cfg.map[p.y][p.x + 1]))
 		{
-			data->cfg.map[p->y][p->x + 1] = '-';
-			ft_lstadd_front(&list, ft_lstnew(point_create(p->x + 1, p->y)));
+			data->cfg.map[p.y][p.x + 1] = '-';
+			ft_lstadd_front(&list, ft_lstnew(point_create(data, p.x + 1, p.y)));
 		}
-		free(p);
 	}
 	return (0);
 }
@@ -146,7 +133,6 @@ void	parse_player(t_data *data)
 		while (++j < data->cfg.map_size.x)
 			if (ft_strchr("NSWE", data->cfg.map[i][j]))
 			{
-				data->player.health = 1000;
 				data->player.pos.x = j;
 				data->player.pos.y = i;
 				data->player.angle = get_angle(data->cfg.map[i][j]);
