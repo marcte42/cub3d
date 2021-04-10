@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 10:13:52 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 18:32:39 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/10 12:45:30 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,6 @@ float	normalize_angle(float angle)
 	else if (angle > M_PI * 2)
 		angle -= M_PI * 2;
 	return (angle);
-}
-
-int		params_count(char **params)
-{
-	size_t i;
-
-	i = 0;
-	if (!params)
-		return (0);
-	while (params[i])
-		i++;
-	return (i);
-}
-
-int		ft_issuffix(char *s1, char *s2)
-{
-	size_t	s1_len;
-	size_t	s2_len;
-
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	return (!ft_strcmp(s1 + (s1_len - s2_len), s2));
 }
 
 int		is_wall(t_data *data, float x, float y)

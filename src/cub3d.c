@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:56:03 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 13:30:45 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/10 12:39:42 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	cub3d(char *file, int save)
 		handle_events(&data);
 	if (!save)
 		mlx_loop_hook(data.mlx.ptr, engine, &data);
-	else 
+	else
 		engine(&data);
 	mlx_loop(data.mlx.ptr);
 }

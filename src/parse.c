@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 21:54:27 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 16:56:54 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/10 12:39:19 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	parse_selector(char *line, t_data *data)
 		ft_strcmp(params[0], "C") == 0))
 		parse_color(params, data);
 	else if (params[0] && !cfg_filled(data))
-		error_params(data, params, "Unknown parameter or a parameter is missing");
+		error_params(data, params, "Unknown or missing parameter");
 	else if ((params[0] || data->cfg.map_lst) && cfg_filled(data))
 		parse_map(line, data);
 	free_params(params);
