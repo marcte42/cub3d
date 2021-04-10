@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/30 11:08:17 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/09 23:14:03 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 # define T_COUNT				5
 
 # define SPEED					6
-# define TURN_SPEED				0.03
+# define TURN_SPEED				0.02
 # define PLAYER_SIZE			5
 # define FOV					(M_PI / 3)
 
@@ -89,6 +89,7 @@ typedef struct		s_player
 {
 	t_fcrd			pos;
 	float			angle;
+	int				health;
 }					t_player;
 
 typedef struct		s_ray

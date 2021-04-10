@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 12:21:00 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 17:55:46 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/07 10:28:26 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	draw(t_data *data)
 		&data->frame.bpp, &data->frame.line_length, &data->frame.endian);
 	draw_world(data);
 	draw_entities(data);
-	draw_map(data);
-	draw_hud_entities(data);
-	draw_player(data);
+	//draw_map(data);
+	//draw_hud_entities(data);
+	//draw_player(data);
 	if (data->save)
 	{
 		save(data);

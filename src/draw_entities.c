@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 13:44:24 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/05 15:26:56 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/09 21:46:17 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,12 @@ void	draw_texel(t_data *data, t_entity *entity, size_t x, size_t y)
 
 void	process_entity(t_data *data, t_entity *entity)
 {
-	entity->size = (TILE_SIZE * 3 / entity->distance) * (data->cfg.r.x / 2)
-		* tan(FOV / 2);
+	entity->size = (((float)TILE_SIZE * 3) / entity->distance) * (data->cfg.r.x / 2) * tan(FOV / 2);
 	entity->top = (data->cfg.r.y / 2) - (entity->size / 2);
 	entity->real_top = entity->top;
 	entity->top = (entity->top < 0) ? 0 : entity->top;
 	entity->bottom = (data->cfg.r.y / 2) + (entity->size / 2);
-	entity->bottom = (entity->bottom > data->cfg.r.y)
-		? data->cfg.r.y : entity->bottom;
+	entity->bottom = (entity->bottom > data->cfg.r.y) ? data->cfg.r.y : entity->bottom;
 	entity->sprite_left = (data->cfg.r.x / 2) + tan(atan2(entity->pos.y - data->player.pos.y, entity->pos.x - data->player.pos.x) + data->player.angle) * (data->cfg.r.x / 2) * tan(FOV / 2) * 3 - (entity->size / 2);
 	entity->sprite_right = entity->sprite_left + entity->size;
 	entity->ratio = (float)data->textures[4].width / entity->size;
