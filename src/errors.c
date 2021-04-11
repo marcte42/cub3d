@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 12:47:02 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/27 12:52:20 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/11 08:48:38 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,25 @@ void	free_params(char **params)
 
 void	free_maps(t_data *data)
 {
+	int i;
+
 	if (data->cfg.map)
 	{
-		while (--data->cfg.map_size.y >= 0
-				&& data->cfg.map[data->cfg.map_size.y])
+		i = -1;
+		while (++i < data->cfg.map_size.y
+				&& data->cfg.map[i])
 		{
-			free(data->cfg.map[data->cfg.map_size.y]);
+			free(data->cfg.map[i]);
 		}
 		free(data->cfg.map);
 	}
 	if (data->cfg.map_tmp)
 	{
-		while (--data->cfg.map_size.y >= 0
-				&& data->cfg.map[data->cfg.map_size.y])
+		i = -1;
+		while (++i < data->cfg.map_size.y
+				&& data->cfg.map_tmp[i])
 		{
-			free(data->cfg.map_tmp[data->cfg.map_size.y]);
+			free(data->cfg.map_tmp[i]);
 		}
 		free(data->cfg.map_tmp);
 	}
