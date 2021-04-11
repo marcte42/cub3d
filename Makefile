@@ -45,6 +45,7 @@ clean :
 
 fclean : clean
 	rm -rf ./lib/libft.a
+	rm -rf ./lib/libmlx.a
 	rm -rf $(NAME)
 
 re : fclean all
