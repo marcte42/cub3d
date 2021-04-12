@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 17:56:13 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/10 16:46:38 by marcte           ###   ########.fr       */
+/*   Updated: 2021/04/12 10:41:28 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ int		is_map_leaking(int x, int y, t_data *data)
 	t_list	*list;
 	t_crd	p;
 
+	if (x == 0 || x == data->cfg.map_size.x - 1
+		|| y == 0 || y == data->cfg.map_size.y - 1)
+		return (1);
 	list = NULL;
 	list = ft_lstadd_front(&list, ft_lstnew(point_create(data, x, y)));
 	while (list)
@@ -49,7 +52,11 @@ int		is_map_leaking(int x, int y, t_data *data)
 		p = ft_lstpop(&list);
 		if (data->cfg.map_tmp[p.y][p.x] == '-' && (p.y == 0
 			|| p.x == 0 || p.y == data->cfg.map_size.y - 1
-			|| p.x == data->cfg.map_size.x - 1))
+			|| p.x == data->cfg.map_size.x - 1)
+			|| data->cfg.map_tmp[p.y - 1][p.x] == ' '
+			|| data->cfg.map_tmp[p.y + 1][p.x] == ' '
+			|| data->cfg.map_tmp[p.y][p.x - 1] == ' '
+			|| data->cfg.map_tmp[p.y][p.x + 1] == ' ')
 		{
 			ft_lstclear(&list, free);
 			return (1);
@@ -113,26 +120,23 @@ void	parse_player(t_data *data)
 	exit_failure(data, "Player not found");
 }
 
-void	parse_map(char *line, t_data *data)
+void	parse_map(char **params, t_data *data)
 {
 	size_t	i;
 	size_t	len;
 	char	*new_line;
 	t_list	*portion;
 
-	len = ft_strlen(line);
+	len = ft_strlen(data->line);
 	i = -1;
-	while (line[++i])
+	while (data->line[++i])
 	{
 		if (len > data->cfg.map_size.x)
 			data->cfg.map_size.x = len;
-		if (!ft_strchr(TILES, line[i]))
-		{
-			free(line);
-			exit_failure(data, "Forbidden map tiles");
-		}
+		if (!ft_strchr(TILES, data->line[i]))
+			error_params(data, params, "Forbidden map tiles");
 	}
-	if (!(portion = ft_lstnew(ft_strdup(line))))
+	if (!(portion = ft_lstnew(ft_strdup(data->line))))
 		exit_failure(data, "Malloc failed");
 	ft_lstadd_back(&data->cfg.map_lst, portion);
 	data->cfg.map_size.y++;

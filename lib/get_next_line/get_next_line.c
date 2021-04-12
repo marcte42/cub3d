@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 15:04:10 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/01/24 17:40:15 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/12 09:39:35 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ static int	ft_process_rest(char **rest, char **line)
 	return (1);
 }
 
-int			get_next_line(int fd, char **line)
+int			get_next_line(char **rest, int fd, char **line)
 {
 	char			buf[BUFFER_SIZE + 1];
-	static char		*rest[256];
 	int				rt;
 
 	if (!line || fd < 0 || BUFFER_SIZE <= 0)
@@ -80,5 +79,5 @@ int			get_next_line(int fd, char **line)
 	buf[rt] = '\0';
 	if (!(rest[fd] = ft_strjoin_free(rest[fd], buf)))
 		return (-1);
-	return (get_next_line(fd, line));
+	return (get_next_line(rest, fd, line));
 }

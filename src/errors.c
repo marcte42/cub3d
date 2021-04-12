@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 12:47:02 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/11 08:48:38 by marcte           ###   ########.fr       */
+/*   Updated: 2021/04/12 11:04:53 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,24 @@ void	free_struct(t_data *data)
 	(data->entities) ? ft_lstclear(&data->entities, free) : 0;
 	i = -1;
 	while (++i < T_COUNT)
+	{
+		if (data->textures[i].ptr)
+			mlx_destroy_image(data->mlx.ptr, data->textures[i].ptr);
 		if (data->cfg.textures[i])
 			free(data->cfg.textures[i]);
+	}
 	(data->cfg.c_str) ? free(data->cfg.c_str) : 0;
 	(data->cfg.f_str) ? free(data->cfg.f_str) : 0;
 	(data->cfg.map_lst) ? ft_lstclear(&data->cfg.map_lst, free) : 0;
 	free_maps(data);
-	if (data->mlx.win)
-		mlx_destroy_window(data->mlx.ptr, data->mlx.win);
+	(data->mlx.win) ? mlx_destroy_window(data->mlx.ptr, data->mlx.win) : 0;
 	if (data->mlx.ptr)
+	{
 		mlx_destroy_display(data->mlx.ptr);
+		free(data->mlx.ptr);
+	}
+	(data->line) ? free(data->line) : 0;
+	(data->rest && data->rest[data->fd]) ? free(data->rest[data->fd]) : 0;
 }
 
 void	exit_failure(t_data *data, char *error)

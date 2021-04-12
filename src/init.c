@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 12:41:35 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/10 16:22:14 by marcte           ###   ########.fr       */
+/*   Updated: 2021/04/12 10:16:08 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ void	init_colors(t_data *data, char *color, int *spot)
 	int		g;
 	int		b;
 
-	if (!(colors = ft_split(color, ",")))
+	colors = ft_split(color, ",");
+	if (!(colors))
 		exit_failure(data, "Malloc failed");
 	if (params_count(colors) != 3 || !ft_onlydigit(colors[0]) ||
 		!ft_onlydigit(colors[1]) || !ft_onlydigit(colors[2]))
-		exit_failure(data, "Color parameter badly formated");
+		error_params(data, colors, "Color parameter badly formated");
 	r = ft_atoi(colors[0]);
 	g = ft_atoi(colors[1]);
 	b = ft_atoi(colors[2]);

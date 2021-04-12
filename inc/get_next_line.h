@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 15:03:38 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/02/03 13:36:14 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/12 09:39:58 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@
 
 # define BUFFER_SIZE 1024
 
-int		get_next_line(int fd, char **line);
+int		get_next_line(char **rest, int fd, char **line);
 
 #endif

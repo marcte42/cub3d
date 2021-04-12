@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/10 17:25:27 by marcte           ###   ########.fr       */
+/*   Updated: 2021/04/12 10:05:30 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,12 +173,15 @@ typedef struct			s_data
 	t_texture			textures[T_COUNT];
 	t_list				*entities;
 	int					save;
+	char				*line;
+	char				*rest[256];
+	int				fd;
 }						t_data;
 
 void					save(t_data *data);
 
 int						parse(t_data *data, char *file);
-void					parse_map(char *line, t_data *data);
+void					parse_map(char **params, t_data *data);
 int						arg_exists(char **params, t_data *data);
 int						cfg_filled(t_data *data);
 void					map_to_mat(t_data *data);

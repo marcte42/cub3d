@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 21:54:27 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/10 16:30:25 by marcte           ###   ########.fr       */
+/*   Updated: 2021/04/12 10:04:15 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,7 @@ void	parse_selector(char *line, t_data *data)
 	char **params;
 
 	if (!(params = ft_split(line, SPACE)))
-	{
-		free(line);
 		exit_failure(data, "Malloc failed or your map is empty");
-	}
 	if (params[0] && (ft_strcmp(params[0], "R") == 0))
 		parse_resolution(params, data);
 	else if (params[0] && ((ft_strcmp(params[0], "NO") == 0 ||
@@ -99,33 +96,24 @@ void	parse_selector(char *line, t_data *data)
 	else if (params[0] && !cfg_filled(data))
 		error_params(data, params, "Unknown or missing parameter");
 	else if ((params[0] || data->cfg.map_lst) && cfg_filled(data))
-		parse_map(line, data);
+		parse_map(params, data);
 	free_params(params);
 }
 
 int		parse(t_data *data, char *file)
 {
-	char	*line;
-	int		fd;
-
-	if ((fd = open(file, O_RDONLY)) < 0 || !ft_issuffix(file, ".cub"))
+	if ((data->fd = open(file, O_RDONLY)) < 0 || !ft_issuffix(file, ".cub"))
 		exit_failure(data, "File not found or bad suffix");
-	line = 0;
-	while (get_next_line(fd, &line))
+	while (get_next_line(data->rest, data->fd, &data->line))
 	{
-		parse_selector(line, data);
-		free(line);
+		parse_selector(data->line, data);
+		free(data->line);
 	}
 	if (!cfg_filled(data))
 		exit_failure(data, "Empty file");
 	map_to_mat(data);
 	parse_player(data);
 	if (is_map_leaking(data->player.pos.x, data->player.pos.y, data))
-	{
-		free(line);
 		exit_failure(data, "Map is leaking");
-	}
-	if (line)
-		free(line);
 	return (1);
 }
