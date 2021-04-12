@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/12 10:05:30 by marcte           ###   ########.fr       */
+/*   Updated: 2021/04/12 11:16:07 by mterkhoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ typedef struct			s_data
 	int					save;
 	char				*line;
 	char				*rest[256];
-	int				fd;
+	int					fd;
 }						t_data;
 
 void					save(t_data *data);
