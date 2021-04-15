@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 21:54:27 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/12 10:04:15 by marcte           ###   ########.fr       */
+/*   Updated: 2021/04/15 13:51:08 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int		parse(t_data *data, char *file)
 		parse_selector(data->line, data);
 		free(data->line);
 	}
+	parse_selector(data->line, data);
 	if (!cfg_filled(data))
 		exit_failure(data, "Empty file");
 	map_to_mat(data);

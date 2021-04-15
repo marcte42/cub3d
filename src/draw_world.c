@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 13:43:11 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/03/30 00:19:20 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/15 18:00:43 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	find_v_strip_color(t_data *data, t_strip *strip, size_t x, size_t y)
 		strip->color = (data->textures[2].addr[(int)((y - strip->tmp_top)
 		* (float)data->textures[2].width / strip->height)
 		* data->textures[2].line_length / 4
-		+ (data->textures[1].width - (int)((int)data->rays[x].hit.y % TILE_SIZE
+		+ (data->textures[2].width - (int)((int)data->rays[x].hit.y % TILE_SIZE
 		* data->textures[2].width / TILE_SIZE))] >> 1)
 		& 8355711;
 }
