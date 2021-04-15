@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 13:43:11 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/15 18:00:43 by marcte           ###   ########.fr       */
+/*   Updated: 2021/04/15 21:10:01 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	find_h_strip_color(t_data *data, t_strip *strip, size_t x, size_t y)
 {
 	if (data->rays[x].angle < M_PI && data->rays[x].angle > 0)
 		strip->color = data->textures[0].addr[(int)((y - strip->tmp_top)
-		* (float)data->textures[0].width / strip->height)
+		* (float)data->textures[0].height / strip->height)
 		* data->textures[0].line_length / 4
 		+ (int)((int)data->rays[x].hit.x % TILE_SIZE
 		* data->textures[0].width / TILE_SIZE)];
 	else
 		strip->color = data->textures[1].addr[(int)((y - strip->tmp_top)
-		* (float)data->textures[1].width / strip->height)
+		* (float)data->textures[1].height / strip->height)
 		* data->textures[1].line_length / 4
 		+ (data->textures[1].width - (int)((int)data->rays[x].hit.x % TILE_SIZE
 		* data->textures[1].width / TILE_SIZE))];
@@ -47,13 +47,13 @@ void	find_v_strip_color(t_data *data, t_strip *strip, size_t x, size_t y)
 {
 	if (data->rays[x].angle < M_PI_2 || data->rays[x].angle > M_PI_2 * 3)
 		strip->color = (data->textures[3].addr[(int)((y - strip->tmp_top)
-		* (float)data->textures[3].width / strip->height)
+		* (float)data->textures[3].height / strip->height)
 		* data->textures[3].line_length / 4
 		+ (int)((int)data->rays[x].hit.y % TILE_SIZE
 		* data->textures[3].width / TILE_SIZE)] >> 1) & 8355711;
 	else
 		strip->color = (data->textures[2].addr[(int)((y - strip->tmp_top)
-		* (float)data->textures[2].width / strip->height)
+		* (float)data->textures[2].height / strip->height)
 		* data->textures[2].line_length / 4
 		+ (data->textures[2].width - (int)((int)data->rays[x].hit.y % TILE_SIZE
 		* data->textures[2].width / TILE_SIZE))] >> 1)
