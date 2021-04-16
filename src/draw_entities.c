@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 13:44:24 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/09 21:46:17 by mterkhoy         ###   ########.fr       */
+/*   Updated: 2021/04/15 21:29:07 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	draw_texel(t_data *data, t_entity *entity, size_t x, size_t y)
 	if (x > 0 && x < data->cfg.r.x && y > 0
 		&& y < data->cfg.r.y && data->rays[x].distance > entity->distance)
 	{
-		y_offset = (int)((y - (int)entity->real_top) * entity->ratio);
-		x_offset = (int)((x - (int)entity->sprite_left) * entity->ratio);
+		y_offset = (int)((y - (int)entity->real_top) * entity->ratio.y);
+		x_offset = (int)((x - (int)entity->sprite_left) * entity->ratio.x);
 		texel = data->textures[4].addr[y_offset * data->textures[4].line_length
 			/ 4 + x_offset];
 		if (texel != 0x00ff38cb)
@@ -74,7 +74,8 @@ void	process_entity(t_data *data, t_entity *entity)
 		- data->player.pos.x) + data->player.angle)
 		* (data->cfg.r.x / 2) * tan(FOV / 2) * 3 - (entity->size / 2);
 	entity->sprite_right = entity->sprite_left + entity->size;
-	entity->ratio = (float)data->textures[4].width / entity->size;
+	entity->ratio.x = (float)data->textures[4].width / entity->size;
+	entity->ratio.y = (float)data->textures[4].height / entity->size;
 }
 
 void	draw_entity(t_data *data, t_entity *entity)

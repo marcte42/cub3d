@@ -6,7 +6,7 @@
 /*   By: mterkhoy <mterkhoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 11:28:42 by mterkhoy          #+#    #+#             */
-/*   Updated: 2021/04/15 20:04:25 by marcte           ###   ########.fr       */
+/*   Updated: 2021/04/15 21:27:14 by marcte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ typedef	struct			s_entity
 	float				bottom;
 	float				sprite_left;
 	float				sprite_right;
-	float				ratio;
+	t_fcrd				ratio;
 }						t_entity;
 
 typedef struct			s_data
